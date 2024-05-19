@@ -1,20 +1,18 @@
 import React from "react";
 
-import { styled, } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-
+import { Toolbar, Box } from "@mui/material";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import Typography from "@mui/material/Typography";
 
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
-const NavBar = ({handleDrawerOpen,open}) => {
- 
- 
-
-   const drawerWidth = 240;
+const NavBar = ({ handleDrawerOpen, open }) => {
+  const drawerWidth = 240;
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
   })(({ theme, open }) => ({
@@ -50,6 +48,12 @@ const NavBar = ({handleDrawerOpen,open}) => {
         <Typography variant="h6" noWrap component="div">
           Mini variant drawer
         </Typography>
+        <Box flexGrow={1} />
+        {!true?<IconButton  color="inherit">
+        <LightModeOutlinedIcon /> 
+        </IconButton>:<IconButton  color="inherit">
+        <DarkModeOutlinedIcon /> 
+        </IconButton>}
       </Toolbar>
     </AppBar>
   );

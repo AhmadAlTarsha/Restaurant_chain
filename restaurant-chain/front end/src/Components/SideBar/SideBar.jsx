@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
 
 import { Outlet } from "react-router-dom";
 import { styled } from "@mui/material/styles";
@@ -69,8 +70,9 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const SideBar = ({ open, handleDrawerClose, theme }) => {
+const SideBar = ({ open, handleDrawerClose }) => {
   // let location=useLocation()
+  const theme = useTheme();
   const navigate = useNavigate();
 
   return (
@@ -123,10 +125,6 @@ const SideBar = ({ open, handleDrawerClose, theme }) => {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
 
-        <Typography paragraph>
-          o viverra maecenas accumsan lacus vel facilisis. Nulla posuere
-          sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
         <Outlet />
       </Box>
     </>

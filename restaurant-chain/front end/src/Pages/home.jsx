@@ -1,6 +1,5 @@
-import React from "react";
+import React ,{useState} from "react";
 import { Outlet } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 
 // import MuiAppBar from '@mui/material/AppBar';
@@ -10,8 +9,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import NavBar from "../Components/NavBar";
 import SideBar from "../Components/SideBar/SideBar";
 const TopBar = () => {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+ 
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -28,7 +27,7 @@ const TopBar = () => {
       <SideBar
         open={open}
         handleDrawerClose={handleDrawerClose}
-        theme={theme}
+      
       />
       <Outlet/>
     </Box>
