@@ -7,11 +7,13 @@ import { Toolbar, Box } from "@mui/material";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
 
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
-const NavBar = ({ handleDrawerOpen, open }) => {
+const NavBar = ({ handleDrawerOpen, open ,setMode ,mode }) => {
+  const theme=useTheme()
   const drawerWidth = 240;
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -49,9 +51,19 @@ const NavBar = ({ handleDrawerOpen, open }) => {
           Mini variant drawer
         </Typography>
         <Box flexGrow={1} />
-        {!true?<IconButton  color="inherit">
+        {theme.palette.mode==="dark"?<IconButton  onClick={async()=>{
+       await   setMode((prevMode) =>
+            prevMode === 'light' ? 'dark' : 'light',
+       localStorage.setItem("mode",theme.palette.mode==="light"?"dark":"light")
+          );
+        }} color="inherit">
         <LightModeOutlinedIcon /> 
-        </IconButton>:<IconButton  color="inherit">
+        </IconButton>:<IconButton onClick={async()=>{
+        await  setMode((prevMode) =>
+            prevMode === 'light' ? 'dark' : 'light',
+        localStorage.setItem("mode",theme.palette.mode==="dark"?"light":"dark")
+          );
+        }}  color="inherit">
         <DarkModeOutlinedIcon /> 
         </IconButton>}
       </Toolbar>
