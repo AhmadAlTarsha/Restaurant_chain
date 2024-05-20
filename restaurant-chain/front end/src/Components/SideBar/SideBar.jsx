@@ -1,8 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+// import {  } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 
-import { Outlet } from "react-router-dom";
+import { Outlet ,useLocation,useNavigate} from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -13,6 +13,7 @@ import List from "@mui/material/List";
 import {Avatar,Typography} from "@mui/material/";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
+import { grey } from "@mui/material/colors";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -71,7 +72,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const SideBar = ({ open, handleDrawerClose }) => {
-  // let location=useLocation()
+  let location=useLocation()
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -127,6 +128,12 @@ const SideBar = ({ open, handleDrawerClose }) => {
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
+                  bgcolor:
+              location.pathname === item.path
+                ? theme.palette.mode === "dark"
+                  ? grey[800]
+                  : grey[300]
+                : null,
                 }}
                 onClick={() => {
                   navigate(item.path);
