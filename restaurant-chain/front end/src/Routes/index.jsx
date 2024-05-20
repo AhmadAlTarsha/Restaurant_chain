@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import React from "react";
 
-import Branches from "../Pages/branches";
+import Branches from "../Pages/RestaurantBranches/branches";
 import Admin from "../Pages/Admin/admin";
 
 import Main from "../Layouts";
