@@ -10,7 +10,7 @@ import { drawerItem } from "./sideBarItem";
 
 import List from "@mui/material/List";
 
-import Typography from "@mui/material/Typography";
+import {Avatar,Typography} from "@mui/material/";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 
@@ -88,6 +88,35 @@ const SideBar = ({ open, handleDrawerClose }) => {
             )}
           </IconButton>
         </DrawerHeader>
+        <Avatar
+        sx={{
+          transition: "0.6s",
+          mx: "auto",
+          width: !open ? 44 : 88,
+          height: !open ? 44 : 88,
+          my: 1,
+          border: "2px solid gray",
+        }}
+        alt="Remy Sharp"
+        src="../../assets/images/avatar_2.jpg"
+      />
+      <Typography
+        align="center"
+        sx={{ transition: "0.6s", fontSize: open ? 17 : 0 }}
+      >
+        Eng.Odeh
+      </Typography>
+      <Typography
+        align="center"
+        sx={{
+          transition: "0.6s",
+          fontSize: open ? 17 : 0,
+          color: theme.palette.info.main,
+        }}
+        color="inherit"
+      >
+        Manager
+      </Typography>
         <Divider />
         <List>
           {drawerItem?.map((item, index) => (
