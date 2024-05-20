@@ -1,8 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
+import React from "react";
 
-import Main from "../layout";
 import Branches from "../Pages/branches";
-import Admin from "../Pages/admin";
+import Admin from "../Pages/Admin/admin";
+
+import Main from "../Layouts";
 
 export const router = createBrowserRouter([
   {
@@ -10,12 +12,12 @@ export const router = createBrowserRouter([
     element: <Main />,
     children: [
       {
-        path: "/branches",
-        element:<Branches/>
+        path: "branches",
+        element: <Branches />,
       },
       {
-        path: "/admin",
-        element:<Admin/>
+        path: "admin",
+        element: <Admin />,
       },
     ],
   },

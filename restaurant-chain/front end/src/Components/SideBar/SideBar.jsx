@@ -158,11 +158,7 @@ const SideBar = ({ open, handleDrawerClose }) => {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-
-        <Outlet />
-      </Box>
+   
     </>
   );
 };
