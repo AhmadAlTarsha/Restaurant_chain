@@ -1,11 +1,10 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../utils/db");
 
-const Branch = require("./branches");
-const MenuItem = require("./menu_item");
+const  Branch = require("./branch");
 
-const BranchItem = sequelize.define(
-  "Branch_Item",
+const Menu= sequelize.define(
+  "Menus",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -13,6 +12,16 @@ const BranchItem = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
+    active: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1,
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        required: true,
+      },
     created_at: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -24,22 +33,13 @@ const BranchItem = sequelize.define(
   }
 );
 
-Branch.hasMany(BranchItem, {
-  foreignKey: "branch_id",
-});
-BranchItem.belongsTo(Branch, {
-  constraints: true,
-  onDelete: "CASCADE",
-  foreignKey: "branch_id",
-});
+// // Branch.hasMany(Menu, {
+// //   foreignKey: "branch_id",
+// // });
+// // Menu.belongsTo(Branch, {
+// //   constraints: true,
+// //   onDelete: "CASCADE",
+// //   foreignKey: "branch_id",
+// // });
 
-MenuItem.hasMany(BranchItem, {
-  foreignKey: "item_id",
-});
-BranchItem.belongsTo(MenuItem, {
-  constraints: true,
-  onDelete: "CASCADE",
-  foreignKey: "item_id",
-});
-
-module.exports = BranchItem;
+module.exports = Menu;

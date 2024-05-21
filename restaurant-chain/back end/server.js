@@ -19,6 +19,8 @@ const PORT = 5001;
 // const PoliceImage = require("./routes/policeImage");
 // const TypePermission = require("./routes/type_permission");
 const Branch = require("./models/branch");
+const Menu = require("./models/menu");
+const BranchMenu = require("./models/branch_menu");
 // const StatusRoute = require("./routes/status");
 // const typeRouter = require("./routes/user_type");
 // const GovernorateRouter = require("./routes/governorate");
@@ -70,9 +72,9 @@ app.use("*", (req, res) =>
     message: "NO content at this path",
   })
 );
-// { force: true }
+// 
 sequelize
-  .sync()
+  .sync({ force: true  })
  
   .then((res) => {
     app.listen(PORT, () => {

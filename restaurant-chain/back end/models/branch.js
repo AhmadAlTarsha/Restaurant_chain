@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../utils/db");
 
-
+// const MenuBranch =require("./branch_menu")
 
 const Branch = sequelize.define(
   "branches",
@@ -12,29 +12,27 @@ const Branch = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    branch_name: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true,
     },
-  
-    street: {
+    phone: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-
-    building_number: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-
-   
-    is_deleted: {
-      type: DataTypes.INTEGER,
+      allowNull: false,
       required: true,
-      defaultValue: 0,
     },
-
+    street_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true,
+    },
+   
+    active: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1,
+    },
     created_at: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -43,8 +41,15 @@ const Branch = sequelize.define(
   },
   {
     timestamps: false,
-  }
+  } 
 );
-
+// MenuBranch.hasMany(Branch, {
+//   foreignKey: "branch_menu_id",
+// });
+// Branch.belongsTo(MenuBranch, {
+//   constraints: true,
+//   onDelete: "CASCADE",
+//   foreignKey: "branch_menu_id",
+// });
 
 module.exports = Branch;
