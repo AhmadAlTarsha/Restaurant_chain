@@ -10,6 +10,7 @@ require("dotenv").config();
 const app = express();
 
 
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
@@ -29,9 +30,12 @@ const BranchOpeningHours = require("./models/branch_opening_hours");
 // const PermissionRouter = require("./routes/permissions");
 // const SparePhone = require("./routes/sparePhone");
 // =======================Routes======================
+const branchRouter = require("./routes/branch");
+
+
 
 //================================
-
+app.use("/branch", branchRouter);
 // app.use("/type_permission", TypePermission);
 // app.use("/permissions", PermissionRouter);
 // app.use("/region", RegionRouter);

@@ -23,6 +23,11 @@ const BranchOpeningHours = sequelize.define(
       allowNull: false,
       required: true,
     },
+    day: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      required: true,
+    },
     created_at: {
       type: DataTypes.DATE,
       allowNull: false,
