@@ -1,18 +1,16 @@
-//!---react import
 import React from "react";
-//!mui import
+
 import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
 import { Box, Typography, IconButton } from "@mui/material";
 import {
   AdminPanelSettingsOutlined,
   PersonOutlineOutlined,
   ManageAccountsOutlined,
-
 } from "@mui/icons-material";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@mui/material";
-//!file import
+
 import { rows } from "./admin-data";
 
 const Admin = () => {
@@ -109,10 +107,7 @@ const Admin = () => {
                 fontSize="small"
               />
             ) : col5 === "user" ? (
-              <PersonOutlineOutlined
-                sx={{ color: "white" }}
-                fontSize="small"
-              />
+              <PersonOutlineOutlined sx={{ color: "white" }} fontSize="small" />
             ) : (
               <ManageAccountsOutlined
                 sx={{ color: "white" }}
@@ -144,10 +139,10 @@ const Admin = () => {
         rows={rows}
         columns={columns}
         sx={{
-          '& .MuiDataGrid-cell': {
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+          "& .MuiDataGrid-cell": {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           },
         }}
       />

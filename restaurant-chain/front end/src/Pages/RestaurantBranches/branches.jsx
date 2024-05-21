@@ -13,7 +13,9 @@ const Branches = () => {
     { id: 2, name: "Branch 2", createdAt: "2023-02-01", location: "Location 2" },
     { id: 2, name: "Branch 2", createdAt: "2023-02-01", location: "Location 2" },
     { id: 2, name: "Branch 2", createdAt: "2023-02-01", location: "Location 2" },
-    // Add more branches as needed
+    { id: 2, name: "Branch 2", createdAt: "2023-02-01", location: "Location 2" },
+   
+   
   ]);
 
   const handleDelete = (id) => {

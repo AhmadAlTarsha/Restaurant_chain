@@ -48,7 +48,7 @@ const NavBar = ({ handleDrawerOpen, open ,setMode ,mode }) => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" noWrap component="div">
-          Mini variant drawer
+          Abu Jbara Restaurant chain
         </Typography>
         <Box flexGrow={1} />
         {theme.palette.mode==="dark"?<IconButton  onClick={async()=>{
