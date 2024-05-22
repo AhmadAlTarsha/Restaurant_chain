@@ -21,6 +21,12 @@ const BranchMenu = sequelize.define(
   },
   {
     timestamps: false,
+    indexes: [
+      {
+        unique: true,
+        fields: ["branch_id", "menu_id"],
+      },
+    ],
   }
 );
 
