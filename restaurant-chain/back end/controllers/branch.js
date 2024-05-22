@@ -43,6 +43,7 @@ exports.getAllBranches = async (req, res, next) => {
         {
           model: BranchMenu,
           attributes: ["menu_id"],
+          where: { active: 1 },
 
           include: [
             {
