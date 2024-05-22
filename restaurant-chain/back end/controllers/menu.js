@@ -61,3 +61,34 @@ exports.addMenu = async (req, res, next) => {
       next(err);
     }
   };
+
+
+
+  exports.deleteMenu = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const [result] = await Menu.update(
+        {
+          active: 0,
+        },
+        { where: { id: id } }
+      );
+  
+      console.log(result);
+  
+      if (result) {
+        return res.status(200).json({
+          error: false,
+          message: "menu deleted successfully",
+        });
+      }
+      
+      throw new Error("error while deleting menu !");
+    } catch (err) {
+      return res.status(500).json({
+        error: true,
+        message: "Error ",
+        error: err,
+      });
+    }
+  };
