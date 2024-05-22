@@ -37,12 +37,49 @@ exports.addBranch = async (req, res, next) => {
 
 exports.getAllBranches = async (req, res, next) => {
   try {
-    const result = await Branch.findAll();
+    const result = await Branch.findAll({
+      where: { active: 1 },
+      include: [
+        {
+          model: BranchMenu,
+          attributes: ["menu_id"],
+
+          include: [
+            {
+              model: Menu,
+              attributes: ["id", "name", "active"],
+              where: { active: 1 },
+            },
+          ],
+        },
+      ],
+    });
 
     if (result[0]?._options.raw) {
+      const allBranches = result.map((branch) => {
+        return {
+          id: branch.id,
+          name: branch.name,
+          phone: branch.phone,
+          street_name: branch.street_name,
+          active: branch.active,
+          created_at: branch.created_at,
+          Branch_Menu:branch.Branches_Menus.map((item)=>{
+            return item.Menu.name
+        }),
+        };
+      });
       return res.status(200).json({
         error: false,
-        all_Branches: result,
+        result: allBranches
+        // branch: {
+        //     id: result.id,
+        //     name: result.name,
+        //     phone: result.phone,
+        //     street_name: result.street_name,
+        //     active: result.active,
+        //     created_at: result.created_at,
+        //     }
       });
     } else if (result.length === 0) {
       return res.status(201).json({
@@ -67,10 +104,12 @@ exports.getBranchById = async (req, res, next) => {
         {
           model: BranchMenu,
           attributes: ["menu_id"],
+
           include: [
             {
               model: Menu,
               attributes: ["id", "name", "active"],
+              where: { active: 1 },
             },
           ],
         },
@@ -83,16 +122,21 @@ exports.getBranchById = async (req, res, next) => {
         message: "Branch not found",
       });
     }
-    const arr = result.Branches_Menus.map((item) => {
-      return item.Menu.name;
-    });
+    const menuNames = result.Branches_Menus.map((item) => item.Menu.name);
 
-    console.log("______________________________________", result[0]);
     return res.status(200).json({
       error: false,
-      branch: result,
-
-      menu: arr,
+      branch: {
+        id: result.id,
+        name: result.name,
+        phone: result.phone,
+        street_name: result.street_name,
+        active: result.active,
+        created_at: result.created_at,
+        Branches_Menus: {
+          menu: menuNames,
+        },
+      },
     });
   } catch (err) {
     if (!err.statusCode) {
@@ -135,22 +179,19 @@ exports.editBranch = async (req, res, next) => {
 exports.deleteBranch = async (req, res) => {
   const { id } = req.params;
   try {
-    const [result] = await Branch.update(
+    const result = await Branch.update(
       {
-        active:0,
+        active: 0,
       },
       { where: { id: id } }
     );
-
-    console.log(result);
-
     if (result) {
-      return res.status(200).json({
-        error: false,
-        message: "branch deleted successfully",
-      });
-    }
-    throw new Error("error while deleting branch !");
+        return res.status(200).json({
+          error: false,
+          message: "branch deleted successfully",
+        });
+      }
+    console.log(result);
   } catch (err) {
     return res.status(500).json({
       error: true,

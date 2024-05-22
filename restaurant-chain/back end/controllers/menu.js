@@ -62,7 +62,36 @@ exports.addMenu = async (req, res, next) => {
     }
   };
 
-
+  exports.editMenu = async (req, res, next) => {
+    const { id } = req.params;
+    const { name} = req.body;
+  
+    try {
+      const result = await Menu.update(
+        { name },
+        { where: { id } }
+      );
+      if (result.sqlMessage) {
+        return res.status(200).json({
+          error: false,
+          message: "menu name in use",
+        });
+      }
+      if (result) {
+        return res.status(200).json({
+          error: false,
+          message: "menu updated successfully",
+        });
+      }
+  
+      return throwError(400, "Something went wrong");
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  };
 
   exports.deleteMenu = async (req, res) => {
     const { id } = req.params;

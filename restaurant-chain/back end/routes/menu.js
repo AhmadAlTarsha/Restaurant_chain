@@ -1,6 +1,6 @@
 const express = require("express");
 const MenuRouter = express.Router();
-const { addMenu,getAllMenu,deleteMenu } = require("../controllers/menu");
+const { addMenu,getAllMenu,deleteMenu,editMenu } = require("../controllers/menu");
 // const { authentication } = require("../middlewares/authintication");
 // const { authorization } = require("../middlewares/authurization");
 
@@ -8,5 +8,6 @@ const { addMenu,getAllMenu,deleteMenu } = require("../controllers/menu");
 MenuRouter.post("/", addMenu);
 MenuRouter.get("/", getAllMenu);
 MenuRouter.delete("/:id", deleteMenu);
+MenuRouter.put("/:id", editMenu);
 
 module.exports = MenuRouter;
