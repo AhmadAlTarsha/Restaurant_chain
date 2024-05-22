@@ -31,11 +31,15 @@ const BranchOpeningHours = require("./models/branch_opening_hours");
 // const SparePhone = require("./routes/sparePhone");
 // =======================Routes======================
 const branchRouter = require("./routes/branch");
+const menuRouter = require("./routes/menu");
+const branchMenuRouter = require("./routes/branch_menu");
 
 
 
 //================================
 app.use("/branch", branchRouter);
+app.use("/menu", menuRouter);
+app.use("/branch_menu", branchMenuRouter);
 // app.use("/type_permission", TypePermission);
 // app.use("/permissions", PermissionRouter);
 // app.use("/region", RegionRouter);
@@ -77,9 +81,9 @@ app.use("*", (req, res) =>
     message: "NO content at this path",
   })
 );
-// 
+// { force: true  }
 sequelize
-  .sync({ force: true  })
+  .sync()
  
   .then((res) => {
     app.listen(PORT, () => {
