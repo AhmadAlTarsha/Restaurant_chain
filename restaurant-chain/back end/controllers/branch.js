@@ -1,6 +1,7 @@
 const Branch = require("../models/branch");
 const Menu = require("../models/menu");
 const BranchMenu = require("../models/branch_menu");
+const { throwError } = require("../middleware/throwError");
 
 exports.addBranch = async (req, res, next) => {
   const { name, phone, street_name } = req.body;
@@ -56,24 +57,7 @@ exports.getAllBranches = async (req, res, next) => {
     next(err);
   }
 };
-// exports.getBranchById = async (req, res, next) => {
-//   const { id } = req.params;
-//   try {
-//     const result = await Branch.findByPk(id);
 
-//     if (result._options.raw) {
-//       return res.status(200).json({
-//         error: false,
-//         Branch: result,
-//       });
-//     }
-//   } catch (err) {
-//     if (!err.statusCode) {
-//       err.statusCode = 500;
-//     }
-//     next(err);
-//   }
-// };
 
 exports.getBranchById = async (req, res, next) => {
   const { id } = req.params;
@@ -94,7 +78,7 @@ exports.getBranchById = async (req, res, next) => {
       ],
     });
 
-    // console.log("==========================",result.Branches_Menus);
+  
     if (!result) {
       return res.status(404).json({
         error: true,
@@ -119,3 +103,28 @@ exports.getBranchById = async (req, res, next) => {
     next(err);
   }
 };
+exports.editBranch = async (req, res, next) => {
+    const { id } = req.params;
+    const { name, phone, street_name, } = req.body;
+  
+    try {
+      const result = await Branch.update(
+        { name, phone, street_name,  },
+        { where: { id } }
+      );
+      if (typeof result[0] === "number") {
+        return res.status(200).json({
+          error: false,
+          message: "Resturant Updated Successfully",
+         
+        });
+      }
+  
+      return throwError(400, "Something went wrong");
+    } catch (err) {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    }
+  };

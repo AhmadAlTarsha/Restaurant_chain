@@ -1,6 +1,6 @@
 const express = require("express");
 const BranchRouter = express.Router();
-const { addBranch,getAllBranches ,getBranchById} = require("../controllers/branch");
+const { addBranch,getAllBranches ,getBranchById,editBranch} = require("../controllers/branch");
 // const { authentication } = require("../middlewares/authintication");
 // const { authorization } = require("../middlewares/authurization");
 
@@ -8,5 +8,6 @@ const { addBranch,getAllBranches ,getBranchById} = require("../controllers/branc
 BranchRouter.post("/", addBranch);
 BranchRouter.get("/", getAllBranches);
 BranchRouter.get("/:id", getBranchById);
+BranchRouter.put("/:id", editBranch);
 
 module.exports = BranchRouter;

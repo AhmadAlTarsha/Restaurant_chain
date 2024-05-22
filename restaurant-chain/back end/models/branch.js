@@ -26,6 +26,9 @@ const Branch = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       required: true,
+      unique: {
+        msg: "this name in use",
+      },
     },
    
     active: {
