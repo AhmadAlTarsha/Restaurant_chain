@@ -35,18 +35,18 @@ exports.addBranch = async (req, res, next) => {
 exports.getAllBranches = async (req, res, next) => {
   try {
     const result = await Branch.findAll();
-    console.log("====================================", result.length);
+
     if (result[0]?._options.raw) {
       return res.status(200).json({
         error: false,
         all_Branches: result,
       });
-    }else if (result.length === 0) {
-        return res.status(201).json({
-          error: false,
-          message: "no branch added yet",
-        });
-      }
+    } else if (result.length === 0) {
+      return res.status(201).json({
+        error: false,
+        message: "no branch added yet",
+      });
+    }
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
