@@ -5,6 +5,7 @@ import Branches from "../Pages/RestaurantBranches/branches";
 import Admin from "../Pages/Admin/admin";
 
 import Main from "../Layouts";
+import Menu from "../Pages/Menu/index";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: "admin",
         element: <Admin />,
+      },
+      {
+        path: "menu",
+        element: <Menu />,
       },
     ],
   },
