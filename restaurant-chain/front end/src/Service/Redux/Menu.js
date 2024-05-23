@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
- getMenu
-} from "../../Service/Api/menu";
+getMenu,
+editItem,
+} from "../Api/menu/CRUD";
 
 export const GetMenuState = createAsyncThunk(
   "menu/get/branch",
@@ -16,12 +17,12 @@ export const GetMenuState = createAsyncThunk(
 //     return await addCarColors(payload);
 //   }
 // );
-// export const EditCarColorsState = createAsyncThunk(
-//   "colors/edit/insurance",
-//   async (payload) => {
-//     return await editCarColor(payload);
-//   }
-// );
+export const EditCarColorsState = createAsyncThunk(
+  "colors/edit/insurance",
+  async (payload) => {
+    return await editItem(payload);
+  }
+);
 
 // export const DeleteCarColorsState = createAsyncThunk(
 //   "colors/delete/insurance",
@@ -71,36 +72,36 @@ export const MenuSlice = createSlice({
         };
       });
     //===============================================================================Edit cases
-    // builder
-    //   .addCase(EditCarColorsState.pending, (state) => {
-    //     state.colorUpdate = true;
-    //     state.errorMessage = {
-    //       error: false,
-    //       message: "",
-    //     };
-    //   })
-    //   .addCase(EditCarColorsState.fulfilled, (state, action) => {
-    //     state.snackBarMessage = action.payload.message;
-    //     state.colorUpdate = false;
+    builder
+      .addCase(EditCarColorsState.pending, (state) => {
+        state.menuUpdate = true;
+        state.errorMessage = {
+          error: false,
+          message: "",
+        };
+      })
+      .addCase(EditCarColorsState.fulfilled, (state, action) => {
+        state.snackBarMessage = action.payload.message;
+        state.menuUpdate = false;
 
-    //     state.snackBarStatus = "success";
-    //     state.colors = action.payload.colors;
-    //     state.errorMessage = {
-    //       isError: false,
-    //       message: " Color updated",
-    //     };
-    //   })
-    //   .addCase(EditCarColorsState.rejected, (state, action) => {
-    //     state.errorMessage = {
-    //       isError: true,
-    //       // return err
-    //       message: `${action.payload ?? "Error update Color"}`,
-    //     };
-    //     // state.colorUpdate = false;
-    //     state.snackBarStatus = "error";
-    //     state.snackBarMessage = action.error.message;
-    //     state.colorUpdate = false;
-    //   });
+        state.snackBarStatus = "success";
+        state.menu = action.payload.menu;
+        state.errorMessage = {
+          isError: false,
+          message: " item updated",
+        };
+      })
+      .addCase(EditCarColorsState.rejected, (state, action) => {
+        state.errorMessage = {
+          isError: true,
+          // return err
+          message: `${action.payload ?? "Error update menu"}`,
+        };
+        // state.colorUpdate = false;
+        state.snackBarStatus = "error";
+        state.snackBarMessage = action.error.message;
+        state.menuUpdate = false;
+      });
 
     // //================================================================Add cases
     // builder

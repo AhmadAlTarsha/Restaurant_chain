@@ -60,27 +60,27 @@ export const getMenu = async () => {
 //     throw err.response.data.message;
 //   }
 // };
-// export const editCarColor= async (payload) => {
+export const editItem= async (payload) => {
 
 
-//   try {
-//     const result = await axios.put(`${url}car-colors/${payload.colorId}`,{color:payload.content.trim()});
+  try {
+    const result = await axios.put(`${url}menu/${payload.menuId}`,{name:payload.content.trim()});
 
-//     if (!result.data?.error) {
+    if (!result.data?.error) {
 
 
-//       const colors=await getCarColors()
+      const menu=await getMenu()
 
    
-//       return({
-// message:result.data?.message,
-// colors:colors
-//      } )
+      return({
+message:result.data?.message,
+menu:menu
+     } )
 
-//     }
-//   } catch (err) {
-//     console.log("ERROR  from editing====> ", err);
+    }
+  } catch (err) {
+    console.log("ERROR  from editing====> ", err);
    
-//     throw err.response.data.message;
-//   }
-// };
+    throw err.response.data.message;
+  }
+};
