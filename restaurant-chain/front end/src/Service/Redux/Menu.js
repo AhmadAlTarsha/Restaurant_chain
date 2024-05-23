@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
 getMenu,
 editItem,
+deleteMenuItem
 } from "../Api/menu/CRUD";
 
 export const GetMenuState = createAsyncThunk(
@@ -18,16 +19,19 @@ export const GetMenuState = createAsyncThunk(
 //   }
 // );
 export const EditMenuItemState = createAsyncThunk(
-  "colors/edit/insurance",
+  "menu/edit/branch",
   async (payload) => {
     return await editItem(payload);
   }
 );
 
 export const DeleteMenuItemState = createAsyncThunk(
-  "colors/delete/insurance",
+  "menu/delete/branch",
   async (payload) => {
-    return await deleteCarColor(payload);
+
+
+    
+    return await deleteMenuItem(payload);
   }
 );
 
@@ -135,37 +139,37 @@ export const MenuSlice = createSlice({
     //     state.snackBarMessage = action.error.message;
     //   });
 
-    // //===================================================================Delete cases
-    // builder
-    //   .addCase(DeleteCarColorsState.pending, (state) => {
-    //     state.colorUpdate = true;
+    //===================================================================Delete cases
+    builder
+      .addCase(DeleteMenuItemState.pending, (state) => {
+        state.menuUpdate = true;
 
-    //     state.errorMessage = {
-    //       error: false,
-    //       message: "",
-    //     };
-    //   })
-    //   .addCase(DeleteCarColorsState.fulfilled, (state, action) => {
-    //     state.colorUpdate = false;
+        state.errorMessage = {
+          error: false,
+          message: "",
+        };
+      })
+      .addCase(DeleteMenuItemState.fulfilled, (state, action) => {
+        state.menuUpdate = false;
 
-    //     state.errorMessage = {
-    //       isError: false,
-    //       message: "",
-    //     };
-    //     state.colors = action.payload.colors;
-    //     state.snackBarMessage = action.payload.message;
-    //     state.snackBarStatus = "success";
-    //   })
-    //   .addCase(DeleteCarColorsState.rejected, (state, action) => {
-    //     state.errorMessage = {
-    //       isError: true,
-    //       // return err
-    //       message: `${action.error.message || "Error Deleting Color"}`,
-    //     };
+        state.errorMessage = {
+          isError: false,
+          message: "",
+        };
+        state.menu = action.payload.menu;
+        state.snackBarMessage = action.payload.message;
+        state.snackBarStatus = "success";
+      })
+      .addCase(DeleteMenuItemState.rejected, (state, action) => {
+        state.errorMessage = {
+          isError: true,
+          // return err
+          message: `${action.error.message || "Error Deleting menu"}`,
+        };
 
-    //     state.snackBarMessage = action.error.message;
-    //     state.snackBarStatus = "error";
-    //   });
+        state.snackBarMessage = action.error.message;
+        state.snackBarStatus = "error";
+      });
   },
 });
 

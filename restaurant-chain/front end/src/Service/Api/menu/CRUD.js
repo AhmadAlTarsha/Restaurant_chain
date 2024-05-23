@@ -16,8 +16,8 @@ export const getMenu = async () => {
   }
 };
 
-export const deleteMenuItemColor = async (payload) => {
-  
+export const deleteMenuItem = async (payload) => {
+ 
  
   try {
     const result = await axios.delete(

@@ -9,10 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 
 //!file import
-// import ConfirmedDialog from "../../../../../../Jo_mazad_admin_Panel/jo_mazad_admin_panel/front-end/src/Components/ConfirmedDialog";
 import CenteredCircularProgress from "../../Components/Loader/index";
-// import EditModal from "../../../../../../Jo_mazad_admin_Panel/jo_mazad_admin_panel/front-end/src/Components/EditModal";
-// import AddModal from "../../../../../../Jo_mazad_admin_Panel/jo_mazad_admin_panel/front-end/src/Components/AddModal";
 import { GetMenuState, EditMenuItemState ,DeleteMenuItemState} from "../../Service/Redux/Menu";
 import EditModal from "../../Components/EditModal";
 import ConfirmedAndEditDialog from "../../Components/ConfirmedDialog";
@@ -50,11 +47,11 @@ const Menu = () => {
 
   //*------------------------------------------this function to delete color from DB
 
-  const deleteCurrentMenuItem = async (colorId, is_deleted) => {
+  const deleteCurrentMenuItem = async (menuId, active) => {
     dispatch(
       DeleteMenuItemState({
-        colorId,
-        is_deleted: is_deleted,
+        menuId,
+        active: active,
       })
     );
     handleCloseConfirmedDialog();
@@ -105,7 +102,7 @@ const Menu = () => {
                   variant="outlined"
                   onClick={() => {
                     setMenuData({
-                      colorId: row.id,
+                      menuId: row.id,
                       active: row.is_deleted,
                     });
                     handleClickOpenConfirmDialog();
@@ -120,7 +117,7 @@ const Menu = () => {
                   onClick={() => {
                     setContent(row?.name);
                     setMenuData({
-                      colorId: row.id,
+                      menuId: row.id,
                       active: row.active,
                     });
                     handleShowEditModel();
@@ -202,8 +199,8 @@ const Menu = () => {
             handleCloseDialog={handleCloseConfirmedDialog}
             openDialog={openDialog}
             setOpenDialog={setOpenDialog}
-            fun={deleteCurrentColor}
-            itemId={menuData.active}
+            fun={deleteCurrentMenuItem}
+            itemId={menuData.menuId}
             isDeleted={menuData.active}
             itemName={itemName}
             snackBarText={menuSelector.snackBarMessage}
@@ -221,7 +218,7 @@ const Menu = () => {
         setShow={setShowEditModal}
         handleShowModel={handleShowEditModel}
         setModalContent={setContent}
-        id={menuData.colorId}
+        id={menuData.menuId}
         itemName={itemName}
         fun={updateCurrentMenuItem}
         handleCloseModel={handleCloseEditModel}
