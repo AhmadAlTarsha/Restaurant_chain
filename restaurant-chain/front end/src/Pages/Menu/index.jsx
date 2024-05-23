@@ -13,8 +13,9 @@ import { useTheme } from "@mui/material/styles";
 import CenteredCircularProgress from "../../Components/Loader/index";
 // import EditModal from "../../../../../../Jo_mazad_admin_Panel/jo_mazad_admin_panel/front-end/src/Components/EditModal";
 // import AddModal from "../../../../../../Jo_mazad_admin_Panel/jo_mazad_admin_panel/front-end/src/Components/AddModal";
-import { GetMenuState, EditMenuItemState } from "../../Service/Redux/Menu";
+import { GetMenuState, EditMenuItemState ,DeleteMenuItemState} from "../../Service/Redux/Menu";
 import EditModal from "../../Components/EditModal";
+import ConfirmedAndEditDialog from "../../Components/ConfirmedDialog";
 
 const Menu = () => {
   const itemName = "menu item";
@@ -49,15 +50,15 @@ const Menu = () => {
 
   //*------------------------------------------this function to delete color from DB
 
-  // const deleteCurrentColor = async (colorId, is_deleted) => {
-  //   dispatch(
-  //     DeleteCarColorsState({
-  //       colorId,
-  //       is_deleted: is_deleted,
-  //     })
-  //   );
-  //   handleCloseConfirmedDialog();
-  // };
+  const deleteCurrentMenuItem = async (colorId, is_deleted) => {
+    dispatch(
+      DeleteMenuItemState({
+        colorId,
+        is_deleted: is_deleted,
+      })
+    );
+    handleCloseConfirmedDialog();
+  };
   // //*------------------------------------------this function to update color in the DB
 
   const updateCurrentMenuItem = async (menuId) => {
@@ -197,17 +198,17 @@ const Menu = () => {
             pageSizeOptions={[25, 50, 75]}
           />
 
-          {/* <ConfirmedDialog
+          <ConfirmedAndEditDialog
             handleCloseDialog={handleCloseConfirmedDialog}
             openDialog={openDialog}
             setOpenDialog={setOpenDialog}
             fun={deleteCurrentColor}
-            itemId={colorData.colorId}
-            isDeleted={colorData.isDeleted}
+            itemId={menuData.active}
+            isDeleted={menuData.active}
             itemName={itemName}
-            snackBarText={colorsSelector.snackBarMessage}
-            snackBarStatus={colorsSelector.snackBarStatus}
-          /> */}
+            snackBarText={menuSelector.snackBarMessage}
+            snackBarStatus={menuSelector.snackBarStatus}
+          />
         </Box>
       ) : (
         <CenteredCircularProgress />

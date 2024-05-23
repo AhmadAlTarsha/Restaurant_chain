@@ -16,28 +16,28 @@ export const getMenu = async () => {
   }
 };
 
-// export const deleteCarColor = async (payload) => {
+export const deleteMenuItemColor = async (payload) => {
   
  
-//   try {
-//     const result = await axios.delete(
-//       `${url}car-colors/${payload.colorId}`,
-//     );
+  try {
+    const result = await axios.delete(
+      `${url}menu/${payload.menuId}`,
+    );
 
-//     if (!result.data?.error) {
-//       const colors=await getCarColors()
+    if (!result.data?.error) {
+      const menu=await getMenu()
 
    
-//       return({
-// message:result.data?.message,
-// colors:colors
-//      } )
-//     }
-//   } catch (err) {
-//     console.error("ERROR ====> ", err.response.data.message);
-//     throw err.response.data.message;
-//   }
-// };
+      return({
+message:result.data?.message,
+menu:menu
+     } )
+    }
+  } catch (err) {
+    console.error("ERROR ====> ", err.response.data.message);
+    throw err.response.data.message;
+  }
+};
 
 // export const addCarColors = async (payload) => {
 

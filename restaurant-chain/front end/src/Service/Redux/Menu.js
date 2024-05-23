@@ -24,12 +24,12 @@ export const EditMenuItemState = createAsyncThunk(
   }
 );
 
-// export const DeleteCarColorsState = createAsyncThunk(
-//   "colors/delete/insurance",
-//   async (payload) => {
-//     return await deleteCarColor(payload);
-//   }
-// );
+export const DeleteMenuItemState = createAsyncThunk(
+  "colors/delete/insurance",
+  async (payload) => {
+    return await deleteCarColor(payload);
+  }
+);
 
 export const MenuSlice = createSlice({
   name: "menu",
