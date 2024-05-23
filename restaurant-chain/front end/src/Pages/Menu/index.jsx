@@ -13,15 +13,16 @@ import { useTheme } from "@mui/material/styles";
 import CenteredCircularProgress from "../../Components/Loader/index";
 // import EditModal from "../../../../../../Jo_mazad_admin_Panel/jo_mazad_admin_panel/front-end/src/Components/EditModal";
 // import AddModal from "../../../../../../Jo_mazad_admin_Panel/jo_mazad_admin_panel/front-end/src/Components/AddModal";
-import { GetMenuState } from "../../Service/Redux/Menu";
+import { GetMenuState, EditMenuItemState } from "../../Service/Redux/Menu";
+import EditModal from "../../Components/EditModal";
 
 const Menu = () => {
-  const itemName = "color";
+  const itemName = "menu item";
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const [meunData, setMenuData] = useState({
-    colorId: 0,
+  const [menuData, setMenuData] = useState({
+    menuId: 0,
     active: 0,
   });
   const [content, setContent] = useState("");
@@ -46,8 +47,6 @@ const Menu = () => {
     return item.active === 1;
   });
 
-  console.log("===============================",menu);
-
   //*------------------------------------------this function to delete color from DB
 
   // const deleteCurrentColor = async (colorId, is_deleted) => {
@@ -61,10 +60,15 @@ const Menu = () => {
   // };
   // //*------------------------------------------this function to update color in the DB
 
-  // const updateCurrentColor = async (colorId) => {
-  //   dispatch(EditCarColorsState({ colorId, content }));
-  //   handleCloseEditModel();
-  // };
+  const updateCurrentMenuItem = async (menuId) => {
+    if (!(content.trim() === "")) {
+      dispatch(EditMenuItemState({ menuId, content }));
+      handleCloseEditModel();
+
+    } else {
+      handleCloseEditModel();
+    }
+  };
 
   // //*------------------------------------------this function to Add new color in the DB
   // const addNewColor = async (color) => {
@@ -205,23 +209,24 @@ const Menu = () => {
             snackBarStatus={colorsSelector.snackBarStatus}
           /> */}
         </Box>
-      ) :  <CenteredCircularProgress />
-      }
+      ) : (
+        <CenteredCircularProgress />
+      )}
 
-      {/* <EditModal
-        snackBarText={colorsSelector.snackBarMessage}
-        snackBarStatus={colorsSelector.snackBarStatus}
+      <EditModal
+        snackBarText={menuSelector.snackBarMessage}
+        snackBarStatus={menuSelector.snackBarStatus}
         show={showEditModal}
         setShow={setShowEditModal}
         handleShowModel={handleShowEditModel}
         setModalContent={setContent}
-        id={colorData.colorId}
+        id={menuData.colorId}
         itemName={itemName}
-        fun={updateCurrentColor}
+        fun={updateCurrentMenuItem}
         handleCloseModel={handleCloseEditModel}
         content={content}
         setContent={setContent}
-      /> */}
+      />
 
       {/* <AddModal
         snackBarText={colorsSelector.snackBarMessage}

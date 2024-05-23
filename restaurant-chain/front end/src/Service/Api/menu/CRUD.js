@@ -6,7 +6,6 @@ export const getMenu = async () => {
  
   try {
     const result = await axios.get(`${url}menu`);
-   console.log(result.data.all_Menu);
    
     if (!result?.data?.error) {
       return result?.data?.all_Menu;

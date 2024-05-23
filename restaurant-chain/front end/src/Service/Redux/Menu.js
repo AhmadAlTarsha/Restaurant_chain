@@ -17,7 +17,7 @@ export const GetMenuState = createAsyncThunk(
 //     return await addCarColors(payload);
 //   }
 // );
-export const EditCarColorsState = createAsyncThunk(
+export const EditMenuItemState = createAsyncThunk(
   "colors/edit/insurance",
   async (payload) => {
     return await editItem(payload);
@@ -73,14 +73,14 @@ export const MenuSlice = createSlice({
       });
     //===============================================================================Edit cases
     builder
-      .addCase(EditCarColorsState.pending, (state) => {
+      .addCase(EditMenuItemState.pending, (state) => {
         state.menuUpdate = true;
         state.errorMessage = {
           error: false,
           message: "",
         };
       })
-      .addCase(EditCarColorsState.fulfilled, (state, action) => {
+      .addCase(EditMenuItemState.fulfilled, (state, action) => {
         state.snackBarMessage = action.payload.message;
         state.menuUpdate = false;
 
@@ -91,7 +91,7 @@ export const MenuSlice = createSlice({
           message: " item updated",
         };
       })
-      .addCase(EditCarColorsState.rejected, (state, action) => {
+      .addCase(EditMenuItemState.rejected, (state, action) => {
         state.errorMessage = {
           isError: true,
           // return err
