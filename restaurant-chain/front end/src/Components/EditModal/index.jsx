@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { Modal, Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import SimpleSnackbar from "../Snackbar";
 
 //!file import
 // import SimpleSnackbar from "../Snackbar";
@@ -79,7 +80,7 @@ const EditModal = ({
               //   console.log(content);
               // }
 
-              fun(id,content);
+              fun(id, content);
               setTimeout(() => {
                 setOpenSnackbar(true);
               }, 1000);
@@ -88,18 +89,15 @@ const EditModal = ({
             Save Changes
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal>{" "}
+      <SimpleSnackbar
+        open={openSnackbar}
+        setOpen={setOpenSnackbar}
+        text={snackBarText}
+        status={snackBarStatus}
+      />
     </>
   );
 };
 
 export default EditModal;
-
-{
-  /* <SimpleSnackbar
-        open={openSnackbar}
-        setOpen={setOpenSnackbar}
-        text={snackBarText}
-        status={snackBarStatus}
-      /> */
-}

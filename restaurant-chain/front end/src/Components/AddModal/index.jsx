@@ -4,6 +4,7 @@ import React, { useState } from "react";
 
 import { Modal, Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import SimpleSnackbar from "../Snackbar";
 
 // import SimpleSnackbar from "../Snackbar";
 
@@ -16,7 +17,7 @@ const AddModal = ({
   snackBarStatus,
   content,
   setContent,
-  emptyContent,
+
 }) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [newText, setNewText] = useState("");

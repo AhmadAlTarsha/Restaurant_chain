@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
 getMenu,
 editItem,
-deleteMenuItem
+deleteMenuItem,
+addMenuItem
 } from "../Api/menu/CRUD";
 
 export const GetMenuState = createAsyncThunk(
@@ -12,12 +13,12 @@ export const GetMenuState = createAsyncThunk(
   }
 );
 
-// export const AddCarColorsState = createAsyncThunk(
-//   "colors/add/insurance",
-//   async (payload) => {
-//     return await addCarColors(payload);
-//   }
-// );
+export const AddMenuState = createAsyncThunk(
+  "colors/add/insurance",
+  async (payload) => {
+    return await addMenuItem(payload);
+  }
+);
 export const EditMenuItemState = createAsyncThunk(
   "menu/edit/branch",
   async (payload) => {
@@ -108,36 +109,36 @@ export const MenuSlice = createSlice({
       });
 
     // //================================================================Add cases
-    // builder
-    //   .addCase(AddCarColorsState.pending, (state) => {
-    //     state.colorUpdate = true;
+    builder
+      .addCase(AddMenuState.pending, (state) => {
+        state.colorUpdate = true;
 
-    //     state.errorMessage = {
-    //       error: false,
-    //       message: "",
-    //     };
-    //   })
-    //   .addCase(AddCarColorsState.fulfilled, (state, action) => {
-    //     state.colorUpdate = false;
+        state.errorMessage = {
+          error: false,
+          message: "",
+        };
+      })
+      .addCase(AddMenuState.fulfilled, (state, action) => {
+        state.menuUpdate = false;
 
-    //     state.snackBarMessage = action.payload.message;
-    //     state.colors = action.payload.colors;
-    //     state.snackBarStatus = "success";
-    //     state.errorMessage = {
-    //       isError: true,
-    //       message: "Added Success",
-    //     };
-    //   })
-    //   .addCase(AddCarColorsState.rejected, (state, action) => {
-    //     state.errorMessage = {
-    //       isError: true,
-    //       // return err
-    //       message: `${action.payload ?? "Error Adding Color"}`,
-    //     };
-    //     state.colorUpdate = false;
-    //     state.snackBarStatus = "error";
-    //     state.snackBarMessage = action.error.message;
-    //   });
+        state.snackBarMessage = action.payload.message;
+        state.menu = action.payload.menu;
+        state.snackBarStatus = "success";
+        state.errorMessage = {
+          isError: true,
+          message: "Added Success",
+        };
+      })
+      .addCase(AddMenuState.rejected, (state, action) => {
+        state.errorMessage = {
+          isError: true,
+          // return err
+          message: `${action.payload ?? "Error Adding Color"}`,
+        };
+        state.menuUpdate = false;
+        state.snackBarStatus = "error";
+        state.snackBarMessage = action.error.message;
+      });
 
     //===================================================================Delete cases
     builder

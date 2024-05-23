@@ -2,6 +2,7 @@
 import React,{useState} from "react";
 //!mui import
 import {Button,Dialog,DialogActions,DialogContent,DialogContentText,DialogTitle} from "@mui/material";
+import SimpleSnackbar from "../Snackbar";
 
 //!file import
 // import SimpleSnackbar from "../Snackbar";
@@ -40,12 +41,12 @@ console.log(itemId,isDeleted);
         </DialogActions>
       </Dialog>
 
-      {/* <SimpleSnackbar
+      <SimpleSnackbar
         open={openSnackbar}
         setOpen={setOpenSnackbar}
         text={snackBarText}
         status={snackBarStatus}
-      /> */}
+      />
     </>
   );
 };

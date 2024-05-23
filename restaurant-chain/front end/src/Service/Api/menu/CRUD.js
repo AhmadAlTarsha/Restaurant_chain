@@ -39,26 +39,26 @@ menu:menu
   }
 };
 
-// export const addCarColors = async (payload) => {
+export const addMenuItem = async (payload) => {
+console.log(payload);
+  try {
+    const result = await axios.post(`${url}menu`,{name:payload.item});
 
-//   try {
-//     const result = await axios.post(`${url}car-colors`,{color:payload.color});
-
-//     if (!result.data?.error) {
-//       const colors=await getCarColors()
+    if (!result.data?.error) {
+      const menu=await getMenu()
 
    
-//       return({
-// message:result.data?.message,
-// colors:colors
-//      } )
+      return({
+message:result.data?.message,
+menu:menu
+     } )
         
-//     }
-//   } catch (err) {
-//     console.log("ERROR ====> ", err.response.data.message);
-//     throw err.response.data.message;
-//   }
-// };
+    }
+  } catch (err) {
+    console.log("ERROR ====> ", err.response.data.message);
+    throw err.response.data.message;
+  }
+};
 export const editItem= async (payload) => {
 
 

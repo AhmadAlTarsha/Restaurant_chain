@@ -4,7 +4,7 @@ const Menu = require("../models/menu");
 
 exports.addMenu = async (req, res, next) => {
     const {name} = req.body;
-  
+
     try {
       const result = await Menu.findOrCreate({
         where: { name },

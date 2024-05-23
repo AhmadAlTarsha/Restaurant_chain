@@ -10,10 +10,16 @@ import { useTheme } from "@mui/material/styles";
 
 //!file import
 import CenteredCircularProgress from "../../Components/Loader/index";
-import { GetMenuState, EditMenuItemState ,DeleteMenuItemState} from "../../Service/Redux/Menu";
+import {
+  GetMenuState,
+  EditMenuItemState,
+  DeleteMenuItemState,
+  AddMenuState,
+} from "../../Service/Redux/Menu";
 import EditModal from "../../Components/EditModal";
 import ConfirmedAndEditDialog from "../../Components/ConfirmedDialog";
-
+import AddModal from "../../Components/AddModal";
+import SimpleSnackbar from "../../Components/Snackbar";
 const Menu = () => {
   const itemName = "menu item";
   const dispatch = useDispatch();
@@ -27,6 +33,10 @@ const Menu = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const [snackBarText, setSnackBarText] = useState("");
+  const [snackBarStatus, setSnackBarStatus] = useState("");
 
   const handleClickOpenConfirmDialog = () => setOpenDialog(true);
   const handleCloseConfirmedDialog = () => setOpenDialog(false);
@@ -56,39 +66,38 @@ const Menu = () => {
     );
     handleCloseConfirmedDialog();
   };
-  // //*------------------------------------------this function to update color in the DB
+  // //*------------------------------------------this function to update menu item in the DB
 
   const updateCurrentMenuItem = async (menuId) => {
     if (!(content.trim() === "")) {
       dispatch(EditMenuItemState({ menuId, content }));
       handleCloseEditModel();
-
     } else {
       handleCloseEditModel();
     }
   };
 
-  // //*------------------------------------------this function to Add new color in the DB
-  // const addNewPartners = async ({ image, partner }) => {
+  // //*------------------------------------------this function to Add new menu item in the DB
 
-  //   if (!image.name|| !partner.trim()) {
-  //     setSnackBarText("image or name is undefine");
-  //     setSnackBarStatus("error")
-  //     setTimeout(() => {
-  //       setOpenSnackbar(true);
-  //     }, 1000);
-  //   }else{
-  //       dispatch(AddPartnerState({ image,partner }));
-  //       setSnackBarText("partner added successfully");
-  //       setSnackBarStatus("success")
-  //     setTimeout(() => {
-  //       setOpenSnackbar(true);
-  //     }, 1000);
-  //   }
+  const addNewMenuItem = async (item) => {
+    console.log(item);
+    if (!item.trim()) {
+      setSnackBarText("add item name !");
+      setSnackBarStatus("error");
+      setTimeout(() => {
+        setOpenSnackbar(true);
+      }, 1000);
+    } else {
+      dispatch(AddMenuState({ item }));
+      setSnackBarText("item added successfully");
+      setSnackBarStatus("success");
+      setTimeout(() => {
+        setOpenSnackbar(true);
+      }, 1000);
+    }
 
-  //   handleCloseAddModel();
-  // };
-
+    handleCloseAddModel();
+  };
 
   const columns = useMemo(
     () => [
@@ -242,18 +251,24 @@ const Menu = () => {
         setContent={setContent}
       />
 
-      {/* <AddModal
-        snackBarText={colorsSelector.snackBarMessage}
-        snackBarStatus={colorsSelector.snackBarStatus}
+      <AddModal
+        snackBarText={menuSelector.snackBarMessage}
+        snackBarStatus={menuSelector.snackBarStatus}
         show={showAddModal}
         setShow={setShowAddModal}
         handleShowModel={handleShowAddModel}
         itemName={itemName}
-        fun={addNewColor}
+        fun={addNewMenuItem}
         handleCloseModel={handleCloseAddModel}
         content={content}
         setContent={setContent}
-      /> */}
+      />
+       <SimpleSnackbar
+        open={openSnackbar}
+        setOpen={setOpenSnackbar}
+        text={snackBarText}
+        status={snackBarStatus}
+      />
     </>
   );
 };
