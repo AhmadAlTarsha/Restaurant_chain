@@ -56,10 +56,10 @@ export const MenuSlice = createSlice({
       })
       .addCase(GetMenuState.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.colors = action.payload;
+        state.menu = action.payload;
         state.errorMessage = {
           isError: false,
-          message: "all Colors",
+          message: "all menu",
         };
       })
       .addCase(GetMenuState.rejected, (state, action) => {

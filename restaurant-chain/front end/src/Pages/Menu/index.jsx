@@ -39,12 +39,14 @@ const Menu = () => {
   //========================================================
 
   const menuSelector = useSelector((state) => {
-    return state.colors;
+    return state.menu;
   });
 
   const menu = menuSelector.menu?.filter((item) => {
     return item.active === 1;
   });
+
+  console.log("===============================",menu);
 
   //*------------------------------------------this function to delete color from DB
 
@@ -73,15 +75,15 @@ const Menu = () => {
   const columns = useMemo(
     () => [
       {
-        field: "color",
-        headerName: "color",
+        field: "name",
+        headerName: " menu item",
         headerAlign: "center",
         align: "center",
         flex: 1,
       },
 
       {
-        field: "Update color",
+        field: "Update item",
         headerName: "Edit",
 
         renderCell: ({ row }) => {
@@ -99,7 +101,7 @@ const Menu = () => {
                   onClick={() => {
                     setMenuData({
                       colorId: row.id,
-                      isDeleted: row.is_deleted,
+                      active: row.is_deleted,
                     });
                     handleClickOpenConfirmDialog();
                   }}
@@ -111,7 +113,7 @@ const Menu = () => {
               <Tooltip title="Edit">
                 <IconButton
                   onClick={() => {
-                    setContent(row?.color);
+                    setContent(row?.name);
                     setMenuData({
                       colorId: row.id,
                       active: row.active,
@@ -164,7 +166,7 @@ const Menu = () => {
             }}
           >
             <Typography variant="h6" sx={{ ml: 2, mt: 2, mb: 2 }}>
-              colors
+              Branches Menu
             </Typography>
             <Button
               onClick={handleShowAddModel}
@@ -173,7 +175,7 @@ const Menu = () => {
               aria-label="Add note"
               sx={{ mt: 2, mr: 2, mb: 2 }}
             >
-              add
+              add item
             </Button>
           </Box>
 
