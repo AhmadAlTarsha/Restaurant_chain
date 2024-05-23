@@ -69,10 +69,26 @@ const Menu = () => {
   };
 
   // //*------------------------------------------this function to Add new color in the DB
-  // const addNewColor = async (color) => {
-  //   dispatch(AddCarColorsState({ color }));
+  // const addNewPartners = async ({ image, partner }) => {
+
+  //   if (!image.name|| !partner.trim()) {
+  //     setSnackBarText("image or name is undefine");
+  //     setSnackBarStatus("error")
+  //     setTimeout(() => {
+  //       setOpenSnackbar(true);
+  //     }, 1000);
+  //   }else{
+  //       dispatch(AddPartnerState({ image,partner }));
+  //       setSnackBarText("partner added successfully");
+  //       setSnackBarStatus("success")
+  //     setTimeout(() => {
+  //       setOpenSnackbar(true);
+  //     }, 1000);
+  //   }
+
   //   handleCloseAddModel();
   // };
+
 
   const columns = useMemo(
     () => [
