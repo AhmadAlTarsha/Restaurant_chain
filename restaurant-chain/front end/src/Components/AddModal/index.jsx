@@ -97,14 +97,15 @@ const AddModal = ({
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* <SimpleSnackbar
-        open={openSnackbar}
-        setOpen={setOpenSnackbar}
-        text={snackBarText}
-        status={snackBarStatus}
-      /> */}
+     
     </>
   );
 };
 
 export default AddModal;
+ {/* <SimpleSnackbar
+        open={openSnackbar}
+        setOpen={setOpenSnackbar}
+        text={snackBarText}
+        status={snackBarStatus}
+      /> */}
