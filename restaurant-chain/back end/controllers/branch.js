@@ -86,6 +86,7 @@ exports.getAllBranches = async (req, res, next) => {
       return res.status(201).json({
         error: false,
         message: "no branch added yet",
+        branch: []
       });
     }
   } catch (err) {

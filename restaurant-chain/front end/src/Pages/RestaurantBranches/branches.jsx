@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Container, Typography } from "@mui/material";
 import BranchesList from "./branchList";
+import CenteredCircularProgress from "../../Components/Loader";
+
 
 import {
   GetBranchesState,
@@ -10,7 +12,7 @@ import {
 } from "../../Service/Redux/res_Branches";
 const Branches = () => {
 
-  console.log("++++++++++++++");
+  
   const dispatch = useDispatch();
 
   const BranchSelector = useSelector((state) => {
@@ -39,8 +41,7 @@ const Branches = () => {
   useEffect(() => {
     dispatch(GetBranchesState());
   }, [dispatch]);
-  return (
-    <Container>
+  return (<>{!BranchSelector.isLoading? <Container>
       <Typography variant="h4" gutterBottom>
         Restaurant Chains
       </Typography>
@@ -48,8 +49,10 @@ const Branches = () => {
         branches={branches}
         deleteCurrentBranch={deleteCurrentBranch}
         handleEdit={handleEdit}
+        branchUpdate={BranchSelector.branchUpdate}
       />
-    </Container>
+    </Container>:<CenteredCircularProgress/>}</>
+   
   );
 };
 
