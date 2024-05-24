@@ -25,12 +25,12 @@ export const deleteMenuItem = async (payload) => {
     );
 
     if (!result.data?.error) {
-      const menu=await getMenu()
+      const branches=await getBranches()
 
    
       return({
 message:result.data?.message,
-menu:menu
+branches:branches
      } )
     }
   } catch (err) {
@@ -45,12 +45,12 @@ console.log(payload);
     const result = await axios.post(`${url}menu`,{name:payload.item});
 
     if (!result.data?.error) {
-      const menu=await getMenu()
+      const branches=await getBranches()
 
    
       return({
 message:result.data?.message,
-menu:menu
+branches:branches
      } )
         
     }
@@ -68,12 +68,12 @@ export const editItem= async (payload) => {
     if (!result.data?.error) {
 
 
-      const menu=await getMenu()
+      const branches=await getBranches()
 
    
       return({
 message:result.data?.message,
-menu:menu
+branches:branches
      } )
 
     }
