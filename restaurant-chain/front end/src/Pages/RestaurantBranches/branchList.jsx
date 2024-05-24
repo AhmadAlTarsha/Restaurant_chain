@@ -30,8 +30,6 @@ const BranchesList = ({
   handleEdit,
   branchUpdate,
 }) => {
-  // const [loading, setLoading] = useState(false);
-  console.log(branches);
   return (
     <Box sx={{ backgroundColor: "lightgray", minHeight: "100vh", padding: 3 }}>
       <Backdrop
@@ -40,7 +38,7 @@ const BranchesList = ({
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      {!(branches?.length===0) ? (
+      {!(branches?.length === 0) ? (
         <TableContainer component={Paper} sx={{ marginTop: 3 }}>
           <Table aria-label="branches table">
             <TableHead>
@@ -90,6 +88,7 @@ const BranchesList = ({
           </Button>
         </Paper>
       )}
+      
     </Box>
   );
 };
