@@ -43,7 +43,7 @@ exports.getAllBranches = async (req, res, next) => {
         {
           model: BranchMenu,
           attributes: ["menu_id"],
-          where: { active: 1 },
+          // where: { active: 1 },
 
           include: [
             {
@@ -72,7 +72,7 @@ exports.getAllBranches = async (req, res, next) => {
       });
       return res.status(200).json({
         error: false,
-        result: allBranches
+        branch: allBranches
         // branch: {
         //     id: result.id,
         //     name: result.name,

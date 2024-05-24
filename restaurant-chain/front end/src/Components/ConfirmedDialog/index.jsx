@@ -8,7 +8,7 @@ import SimpleSnackbar from "../Snackbar";
 // import SimpleSnackbar from "../Snackbar";
 
 const ConfirmedAndEditDialog = ({ itemId, openDialog,setOpenDialog, fun, itemName, isDeleted,snackBarStatus,snackBarText }) => {
-console.log(itemId,isDeleted);
+
   const [openSnackbar, setOpenSnackbar] = useState(false);
   
   const handleCloseDialog = () => setOpenDialog(false);

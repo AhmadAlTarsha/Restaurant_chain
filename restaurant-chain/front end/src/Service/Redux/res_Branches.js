@@ -1,51 +1,48 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-getMenu,
-editItem,
-deleteMenuItem,
-addMenuItem
-} from "../Api/menu/CRUD";
+  getBranches,
+  addBranch,
+  deleteBranch,
+  editBranch,
+} from "../Api/res_Branch/CRUD";
 
-export const GetMenuState = createAsyncThunk(
-  "menu/get/branch",
+export const GetBranchesState = createAsyncThunk(
+  "branch/get/r",
   async (payload) => {
-    return await getMenu();
+    return await getBranches();
   }
 );
 
-export const AddMenuState = createAsyncThunk(
-  "colors/add/insurance",
+export const AddBranchesState = createAsyncThunk(
+  "branch/add/r",
   async (payload) => {
-    return await addMenuItem(payload);
+    return await addBranch(payload);
   }
 );
-export const EditMenuItemState = createAsyncThunk(
-  "menu/edit/branch",
+export const EditBranchesState = createAsyncThunk(
+  "branch/edit/r",
   async (payload) => {
-    return await editItem(payload);
-  }
-);
-
-export const DeleteMenuItemState = createAsyncThunk(
-  "menu/delete/branch",
-  async (payload) => {
-
-
-    
-    return await deleteMenuItem(payload);
+    return await editBranch(payload);
   }
 );
 
-export const MenuSlice = createSlice({
-  name: "menu",
+export const DeleteBranchesState = createAsyncThunk(
+  "branch/delete/r",
+  async (payload) => {
+    return await deleteBranch(payload);
+  }
+);
+
+export const BranchesSlice = createSlice({
+  name: "branches",
   initialState: {
     isLoading: false,
     errorMessage: {
       error: false,
       message: "",
     },
-    menu: [],
-   menuUpdate: false,
+    branches: [],
+    branchUpdate: false,
     snackBarMessage: "",
     snackBarStatus: "",
   },
@@ -53,50 +50,52 @@ export const MenuSlice = createSlice({
   extraReducers: (builder) => {
     //===========================================================================Get cases
     builder
-      .addCase(GetMenuState.pending, (state) => {
+      .addCase(GetBranchesState.pending, (state) => {
         state.isLoading = true;
         state.errorMessage = {
           error: false,
           message: "",
         };
       })
-      .addCase(GetMenuState.fulfilled, (state, action) => {
+      .addCase(GetBranchesState.fulfilled, (state, action) => {
+
+        console.log(action);
         state.isLoading = false;
-        state.menu = action.payload;
+        state.branches = action.payload;
         state.errorMessage = {
           isError: false,
-          message: "all menu",
+          message: "all branch",
         };
       })
-      .addCase(GetMenuState.rejected, (state, action) => {
+      .addCase(GetBranchesState.rejected, (state, action) => {
         state.isLoading = true;
         state.errorMessage = {
           isError: true,
           // return err
-          message: `${action.payload ?? "Error Getting Menu"}`,
+          message: `${action.payload ?? "Error Getting Branch"}`,
         };
       });
     //===============================================================================Edit cases
     builder
-      .addCase(EditMenuItemState.pending, (state) => {
-        state.menuUpdate = true;
+      .addCase(EditBranchesState.pending, (state) => {
+        state.branchUpdate = true;
         state.errorMessage = {
           error: false,
           message: "",
         };
       })
-      .addCase(EditMenuItemState.fulfilled, (state, action) => {
+      .addCase(EditBranchesState.fulfilled, (state, action) => {
         state.snackBarMessage = action.payload.message;
-        state.menuUpdate = false;
+        state.branchUpdate = false;
 
         state.snackBarStatus = "success";
-        state.menu = action.payload.menu;
+        state.branchUpdate = action.payload.menu;
         state.errorMessage = {
           isError: false,
           message: " item updated",
         };
       })
-      .addCase(EditMenuItemState.rejected, (state, action) => {
+      .addCase(EditBranchesState.rejected, (state, action) => {
         state.errorMessage = {
           isError: true,
           // return err
@@ -110,39 +109,39 @@ export const MenuSlice = createSlice({
 
     // //================================================================Add cases
     builder
-      .addCase(AddMenuState.pending, (state) => {
-        state.colorUpdate = true;
+      .addCase(AddBranchesState.pending, (state) => {
+        state.branchUpdate = true;
 
         state.errorMessage = {
           error: false,
           message: "",
         };
       })
-      .addCase(AddMenuState.fulfilled, (state, action) => {
-        state.menuUpdate = false;
+      .addCase(AddBranchesState.fulfilled, (state, action) => {
+        state.branchUpdate = false;
 
         state.snackBarMessage = action.payload.message;
-        state.menu = action.payload.menu;
+        state.branches = action.payload.menu;
         state.snackBarStatus = "success";
         state.errorMessage = {
           isError: true,
           message: "Added Success",
         };
       })
-      .addCase(AddMenuState.rejected, (state, action) => {
+      .addCase(AddBranchesState.rejected, (state, action) => {
         state.errorMessage = {
           isError: true,
           // return err
           message: `${action.payload ?? "Error Adding Color"}`,
         };
-        state.menuUpdate = false;
+        state.branchUpdate = false;
         state.snackBarStatus = "error";
         state.snackBarMessage = action.error.message;
       });
 
     //===================================================================Delete cases
     builder
-      .addCase(DeleteMenuItemState.pending, (state) => {
+      .addCase(DeleteBranchesState.pending, (state) => {
         state.menuUpdate = true;
 
         state.errorMessage = {
@@ -150,7 +149,7 @@ export const MenuSlice = createSlice({
           message: "",
         };
       })
-      .addCase(DeleteMenuItemState.fulfilled, (state, action) => {
+      .addCase(DeleteBranchesState.fulfilled, (state, action) => {
         state.menuUpdate = false;
 
         state.errorMessage = {
@@ -161,11 +160,11 @@ export const MenuSlice = createSlice({
         state.snackBarMessage = action.payload.message;
         state.snackBarStatus = "success";
       })
-      .addCase(DeleteMenuItemState.rejected, (state, action) => {
+      .addCase(DeleteBranchesState.rejected, (state, action) => {
         state.errorMessage = {
           isError: true,
           // return err
-          message: `${action.error.message || "Error Deleting menu"}`,
+          message: `${action.error.message || "Error Deleting branches"}`,
         };
 
         state.snackBarMessage = action.error.message;
@@ -174,4 +173,4 @@ export const MenuSlice = createSlice({
   },
 });
 
-export default MenuSlice.reducer;
+export default BranchesSlice.reducer;

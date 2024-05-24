@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import MenuReducers from "./Menu";
+import BranchReducers from "./res_Branches";
 // import ColorsReducers from "./CarColors";
 // import NoteReducers from "./Note";
 // import ModelReducers from "./CarModels"
@@ -9,6 +10,7 @@ import MenuReducers from "./Menu";
 export default configureStore({
   reducer: {
     menu: MenuReducers,
+    branch: BranchReducers,
     // notes: NoteReducers,
     // colors: ColorsReducers,
     // models:ModelReducers,

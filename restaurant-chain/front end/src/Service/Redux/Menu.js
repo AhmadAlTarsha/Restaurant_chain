@@ -111,7 +111,7 @@ export const MenuSlice = createSlice({
     // //================================================================Add cases
     builder
       .addCase(AddMenuState.pending, (state) => {
-        state.colorUpdate = true;
+        state.menuUpdate = true;
 
         state.errorMessage = {
           error: false,

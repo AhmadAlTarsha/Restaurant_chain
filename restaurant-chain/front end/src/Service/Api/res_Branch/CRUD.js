@@ -6,9 +6,9 @@ export const getBranches = async () => {
  
   try {
     const result = await axios.get(`${url}branch`);
-   
+
     if (!result?.data?.error) {
-      return result?.data?.allBranches;
+      return result?.data?.branch;
     }
   } catch (err) {
     console.error("ERROR ====> ", err);
@@ -16,12 +16,12 @@ export const getBranches = async () => {
   }
 };
 
-export const deleteMenuItem = async (payload) => {
+export const deleteBranch = async (payload) => {
  
  
   try {
     const result = await axios.delete(
-      `${url}menu/${payload.menuId}`,
+      `${url}branch/${payload.branchId}`,
     );
 
     if (!result.data?.error) {
@@ -39,10 +39,10 @@ branches:branches
   }
 };
 
-export const addMenuItem = async (payload) => {
+export const addBranch= async (payload) => {
 console.log(payload);
   try {
-    const result = await axios.post(`${url}menu`,{name:payload.item});
+    const result = await axios.post(`${url}menu`,{name:payload.branch});
 
     if (!result.data?.error) {
       const branches=await getBranches()
@@ -59,11 +59,11 @@ branches:branches
     throw err.response.data.message;
   }
 };
-export const editItem= async (payload) => {
+export const editBranch= async (payload) => {
 
 
   try {
-    const result = await axios.put(`${url}menu/${payload.menuId}`,{name:payload.content.trim()});
+    const result = await axios.put(`${url}branch/${payload.branch}`,{name:payload.content.trim()});
 
     if (!result.data?.error) {
 

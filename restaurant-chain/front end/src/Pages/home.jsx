@@ -9,7 +9,7 @@ import { styled } from "@mui/material/styles";
 
 import CssBaseline from "@mui/material/CssBaseline";
 
-import NavBar from "../Components/NavBar";
+import NavBar from "../Components/NavBar/NavBar";
 import SideBar from "../Components/SideBar/SideBar";
 const Home = () => {
   const [mode, setMode] = useState(localStorage.getItem("mode")||"light");
