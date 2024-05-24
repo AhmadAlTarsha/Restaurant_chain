@@ -142,7 +142,7 @@ export const BranchesSlice = createSlice({
     //===================================================================Delete cases
     builder
       .addCase(DeleteBranchesState.pending, (state) => {
-        state.menuUpdate = true;
+        state.branchUpdate = true;
 
         state.errorMessage = {
           error: false,
@@ -150,13 +150,13 @@ export const BranchesSlice = createSlice({
         };
       })
       .addCase(DeleteBranchesState.fulfilled, (state, action) => {
-        state.menuUpdate = false;
+        state.branchUpdate = false;
 
         state.errorMessage = {
           isError: false,
           message: "",
         };
-        state.menu = action.payload.menu;
+        state.branches = action.payload.branches;
         state.snackBarMessage = action.payload.message;
         state.snackBarStatus = "success";
       })

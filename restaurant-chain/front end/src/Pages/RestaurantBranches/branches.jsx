@@ -6,77 +6,30 @@ import BranchesList from "./branchList";
 
 import {
   GetBranchesState,
-  EditBranchesState,
-  DeleteBranchesState,
-  AddBranchesState,
+  DeleteBranchesState
 } from "../../Service/Redux/res_Branches";
 const Branches = () => {
+
+  console.log("++++++++++++++");
   const dispatch = useDispatch();
 
   const BranchSelector = useSelector((state) => {
     return state.branch;
   });
 
-  const restaurantBranches = BranchSelector.branches?.filter((item) => {
-    return item.active === 1;
-  });
-
-  console.log(restaurantBranches);
-
-  const [branches, setBranches] = useState([
-    {
-      id: 1,
-      name: "Branch 1",
-      createdAt: "2023-01-01",
-      location: "Location 1",
-    },
-    {
-      id: 2,
-      name: "Branch 2",
-      createdAt: "2023-02-01",
-      location: "Location 2",
-    },
-    {
-      id: 2,
-      name: "Branch 2",
-      createdAt: "2023-02-01",
-      location: "Location 2",
-    },
-    {
-      id: 2,
-      name: "Branch 2",
-      createdAt: "2023-02-01",
-      location: "Location 2",
-    },
-    {
-      id: 2,
-      name: "Branch 2",
-      createdAt: "2023-02-01",
-      location: "Location 2",
-    },
-    {
-      id: 2,
-      name: "Branch 2",
-      createdAt: "2023-02-01",
-      location: "Location 2",
-    },
-    {
-      id: 2,
-      name: "Branch 2",
-      createdAt: "2023-02-01",
-      location: "Location 2",
-    },
-    {
-      id: 2,
-      name: "Branch 2",
-      createdAt: "2023-02-01",
-      location: "Location 2",
-    },
-  ]);
-
-  const handleDelete = (id) => {
-    setBranches(branches.filter((branch) => branch.id !== id));
+  const branches = BranchSelector.branches
+// console.log(branches);
+  const deleteCurrentBranch = async (branchId, active) => {
+    dispatch(
+      DeleteBranchesState({
+        branchId,
+        active: active,
+      })
+    );
+    // handleCloseConfirmedDialog();
   };
+
+
 
   const handleEdit = (id) => {
     // Implement edit logic here
@@ -93,7 +46,7 @@ const Branches = () => {
       </Typography>
       <BranchesList
         branches={branches}
-        handleDelete={handleDelete}
+        deleteCurrentBranch={deleteCurrentBranch}
         handleEdit={handleEdit}
       />
     </Container>

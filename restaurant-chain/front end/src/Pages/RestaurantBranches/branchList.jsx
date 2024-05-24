@@ -1,8 +1,17 @@
 import React from "react";
 import {
-    Table, TableBody, TableCell, TableContainer,
-    TableHead, TableRow, Paper, IconButton, Tooltip
-  } from '@mui/material';
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  IconButton,
+  Tooltip,
+  Button,
+  Typography
+} from '@mui/material';
   import { styled } from '@mui/material/styles';
   import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -13,9 +22,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.common.white,
   fontWeight: "bold",
 }));
-const BranchesList = ({ branches, handleDelete, handleEdit }) => {
-  return (
-    <TableContainer component={Paper} sx={{ marginTop: 3 }}>
+const BranchesList = ({ branches, deleteCurrentBranch, handleEdit }) => {
+  console.log("==================================================");
+  return (<>
+  {branches?  <TableContainer component={Paper} sx={{ marginTop: 3 ,backgroundColor: 'lightgray'}}>
     <Table aria-label="branches table">
       <TableHead>
         <TableRow>
@@ -26,10 +36,10 @@ const BranchesList = ({ branches, handleDelete, handleEdit }) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {branches.map((branch) => (
+        {branches?.map((branch) => (
           <TableRow key={branch.id}>
             <TableCell>{branch.name}</TableCell>
-            <TableCell>{branch.createdAt}</TableCell>
+            <TableCell>{branch.created_at}</TableCell>
             <TableCell>{branch.location}</TableCell>
             <TableCell align="center">
               <Tooltip title="Edit">
@@ -38,7 +48,7 @@ const BranchesList = ({ branches, handleDelete, handleEdit }) => {
                 </IconButton>
               </Tooltip>
               <Tooltip title="Delete">
-                <IconButton color="secondary" onClick={() => handleDelete(branch.id)}>
+                <IconButton color="secondary" onClick={() =>{ deleteCurrentBranch(branch.id)}}>
                   <DeleteIcon />
                 </IconButton>
               </Tooltip>
@@ -47,7 +57,15 @@ const BranchesList = ({ branches, handleDelete, handleEdit }) => {
         ))}
       </TableBody>
     </Table>
-  </TableContainer>
+  </TableContainer>:<Paper sx={{ padding: 3, marginTop: 3, backgroundColor: 'lightgray' }}>
+          <Typography variant="h6" gutterBottom>
+            There are no branches added yet.
+          </Typography>
+          <Button variant="contained" color="primary" onClick={() => {/* handle add branch logic */}}>
+            Add Branch
+          </Button>
+        </Paper>}</>
+  
   );
 };
 
