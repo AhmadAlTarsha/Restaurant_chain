@@ -1,22 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Container, Typography } from "@mui/material";
 import BranchesList from "./branchList";
 import CenteredCircularProgress from "../../Components/Loader";
 
-import {
-  GetBranchesState,
-  DeleteBranchesState,
-} from "../../Service/Redux/res_Branches";
+import { GetBranchesState } from "../../Service/Redux/res_Branches";
 const Branches = () => {
   const itemName = "branch";
-  // const [content, setContent] = useState("");
-
-  // const [openDialog, setOpenDialog] = useState(false);
-  // const handleCloseConfirmedDialog = () => setOpenDialog(false);
-  // const handleClickOpenConfirmDialog = () => setOpenDialog(true);
-
 
   const dispatch = useDispatch();
 
@@ -26,13 +17,7 @@ const Branches = () => {
 
   const branches = BranchSelector.branches;
 
- 
-
-  const handleEdit = (id) => {
-    // Implement edit logic here
-    console.log("Edit branch with id:", id);
-  };
-
+  // !-----------------------------------------------------------side effect
   useEffect(() => {
     dispatch(GetBranchesState());
   }, [dispatch]);
@@ -45,15 +30,9 @@ const Branches = () => {
           </Typography>
           <BranchesList
             branches={branches}
-            
-            handleEdit={handleEdit}
             branchUpdate={BranchSelector.branchUpdate}
             BranchSelector={BranchSelector}
             itemName={itemName}
-          
-            
-
-            // add={<AddModal/>}
           />
         </Container>
       ) : (

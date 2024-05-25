@@ -4,8 +4,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SimpleSnackbar from "../Snackbar";
 
-//!file import
-// import SimpleSnackbar from "../Snackbar";
+
 
 const EditModal = ({
   content,
@@ -70,15 +69,7 @@ const EditModal = ({
           <Button
             variant="primary"
             onClick={() => {
-              // if (content === "") {
-              //   console.log(true);
-              //   console.log(content);
-              //   setContent();
-              //   console.log(content);
-              // } else {
-              //   console.log(false);
-              //   console.log(content);
-              // }
+             
 
               fun(id, content);
               setTimeout(() => {
