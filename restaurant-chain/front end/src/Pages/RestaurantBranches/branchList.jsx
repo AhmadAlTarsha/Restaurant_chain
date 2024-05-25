@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useTheme } from "@mui/material/styles";
 
 import {
   TableContainer,
@@ -17,18 +16,19 @@ import {
   Backdrop,
   CircularProgress,
   Box,
-  // Dialog,
-  // DialogTitle,
-  // DialogContent,
-  // DialogActions,
-  // TextField,
 } from "@mui/material";
-import { AddBranchesState } from "../../Service/Redux/res_Branches";
+
+import AddModal from "../../Components/AddModal";
+import SimpleSnackbar from "../../Components/Snackbar";
+import ConfirmedAndEditDialog from "../../Components/ConfirmedDialog";
+import {
+  AddBranchesState,
+  DeleteBranchesState,
+} from "../../Service/Redux/res_Branches";
+
 import { styled } from "@mui/material/styles";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddModal from "../../Components/AddModal";
-import SimpleSnackbar from "../../Components/Snackbar";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -38,17 +38,21 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const BranchesList = ({
   branches,
-  deleteCurrentBranch,
   handleEdit,
   branchUpdate,
   BranchSelector,
   itemName,
 }) => {
   const [showAddModal, setShowAddModal] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
 
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackBarText, setSnackBarText] = useState("");
   const [snackBarStatus, setSnackBarStatus] = useState("");
+
+  const handleClickOpenConfirmDialog = () => setOpenDialog(true);
+  const handleCloseConfirmedDialog = () => setOpenDialog(false);
 
   const handleShowAddModel = () => setShowAddModal(true);
   const handleCloseAddModel = () => setShowAddModal(false);
@@ -60,9 +64,13 @@ const BranchesList = ({
     street_name: "",
     phone: "",
   });
+  const [branchData, setBranchData] = useState({
+    branchId: 0,
+    active: 0,
+  });
 
+  //-------------------------------------------------------------------------------------this function Add new branch to the db
   const addNewBranch = async ({ name, phone, street_name }) => {
-  
     if (!name.trim() || !phone.trim() || !street_name.trim()) {
       setSnackBarText("some info is undefine");
       setSnackBarStatus("error");
@@ -79,6 +87,16 @@ const BranchesList = ({
     }
 
     handleCloseAddModel();
+  };
+//-------------------------------------------------------------------------------------this function delete selected branch from db
+  const deleteCurrentBranch = (branchId, active) => {
+    dispatch(
+      DeleteBranchesState({
+        branchId,
+        active: active,
+      })
+    );
+    handleCloseConfirmedDialog();
   };
   return (
     <Box sx={{ backgroundColor: "lightgray", minHeight: "100vh", padding: 3 }}>
@@ -123,7 +141,7 @@ const BranchesList = ({
                 <TableRow key={branch.id}>
                   <TableCell>{branch.name}</TableCell>
                   <TableCell>{branch.created_at}</TableCell>
-                  <TableCell>{branch.location}</TableCell>
+                  <TableCell>{branch.street_name}</TableCell>
                   <TableCell align="center">
                     <Tooltip title="Edit">
                       <IconButton
@@ -136,7 +154,13 @@ const BranchesList = ({
                     <Tooltip title="Delete">
                       <IconButton
                         color="secondary"
-                        onClick={() => deleteCurrentBranch(branch.id)}
+                        onClick={() => {
+                          setBranchData({
+                            branchId: branch.id,
+                            active: 0,
+                          });
+                          handleClickOpenConfirmDialog();
+                        }}
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -154,6 +178,18 @@ const BranchesList = ({
           </Typography>
         </Paper>
       )}
+
+      <ConfirmedAndEditDialog
+        handleCloseDialog={handleCloseConfirmedDialog}
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        fun={deleteCurrentBranch}
+        itemId={branchData.branchId}
+        isDeleted={branchData.active}
+        itemName={itemName}
+        snackBarText={BranchSelector.snackBarMessage}
+        snackBarStatus={BranchSelector.snackBarStatus}
+      />
       <AddModal
         snackBarText={BranchSelector.snackBarMessage}
         snackBarStatus={BranchSelector.snackBarStatus}

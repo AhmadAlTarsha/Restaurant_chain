@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Container, Typography } from "@mui/material";
 import BranchesList from "./branchList";
 import CenteredCircularProgress from "../../Components/Loader";
-import AddModal from "../../Components/AddModal";
 
 import {
   GetBranchesState,
@@ -14,15 +13,11 @@ const Branches = () => {
   const itemName = "branch";
   // const [content, setContent] = useState("");
 
+  // const [openDialog, setOpenDialog] = useState(false);
+  // const handleCloseConfirmedDialog = () => setOpenDialog(false);
+  // const handleClickOpenConfirmDialog = () => setOpenDialog(true);
 
-  // const [showAddModal, setShowAddModal] = useState(false);
-  // const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  // const [snackBarText, setSnackBarText] = useState("");
-  // const [snackBarStatus, setSnackBarStatus] = useState("");
-
-  // const handleShowAddModel = () => setShowAddModal(true);
-  // const handleCloseAddModel = () => setShowAddModal(false);
   const dispatch = useDispatch();
 
   const BranchSelector = useSelector((state) => {
@@ -30,18 +25,8 @@ const Branches = () => {
   });
 
   const branches = BranchSelector.branches;
- 
- 
 
-  const deleteCurrentBranch = async (branchId, active) => {
-    dispatch(
-      DeleteBranchesState({
-        branchId,
-        active: active,
-      })
-    );
-    // handleCloseConfirmedDialog();
-  };
+ 
 
   const handleEdit = (id) => {
     // Implement edit logic here
@@ -60,19 +45,20 @@ const Branches = () => {
           </Typography>
           <BranchesList
             branches={branches}
-            deleteCurrentBranch={deleteCurrentBranch}
+            
             handleEdit={handleEdit}
             branchUpdate={BranchSelector.branchUpdate}
             BranchSelector={BranchSelector}
             itemName={itemName}
+          
             
+
             // add={<AddModal/>}
           />
         </Container>
       ) : (
         <CenteredCircularProgress />
       )}
-   
     </>
   );
 };
