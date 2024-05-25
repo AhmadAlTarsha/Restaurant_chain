@@ -24,11 +24,13 @@ import ConfirmedAndEditDialog from "../../Components/ConfirmedDialog";
 import {
   AddBranchesState,
   DeleteBranchesState,
+  EditBranchesState
 } from "../../Service/Redux/res_Branches";
 
 import { styled } from "@mui/material/styles";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditModal from "../../Components/EditModal";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -47,6 +49,8 @@ const BranchesList = ({
 
   const [openDialog, setOpenDialog] = useState(false);
 
+  const [showEditModal, setShowEditModal] = useState(false);
+
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackBarText, setSnackBarText] = useState("");
   const [snackBarStatus, setSnackBarStatus] = useState("");
@@ -57,6 +61,12 @@ const BranchesList = ({
   const handleShowAddModel = () => setShowAddModal(true);
   const handleCloseAddModel = () => setShowAddModal(false);
 
+  const handleShowEditModel = () => setShowEditModal(true);
+  const handleCloseEditModel = () => {
+    setShowEditModal(false);
+    setContent(emptyContent);
+  };
+  
   const dispatch = useDispatch();
 
   const [content, setContent] = useState({
@@ -64,6 +74,11 @@ const BranchesList = ({
     street_name: "",
     phone: "",
   });
+  const emptyContent = {
+    name: "",
+    street_name: "",
+    phone:""
+  };
   const [branchData, setBranchData] = useState({
     branchId: 0,
     active: 0,
@@ -87,6 +102,7 @@ const BranchesList = ({
     }
 
     handleCloseAddModel();
+    setContent(emptyContent)
   };
 //-------------------------------------------------------------------------------------this function delete selected branch from db
   const deleteCurrentBranch = (branchId, active) => {
@@ -97,6 +113,13 @@ const BranchesList = ({
       })
     );
     handleCloseConfirmedDialog();
+  };
+
+  const updateCurrentBranch = async (branchId) => {
+
+    console.log(branchId,content);
+    dispatch(EditBranchesState({ branchId, content }));
+    handleCloseEditModel();
   };
   return (
     <Box sx={{ backgroundColor: "lightgray", minHeight: "100vh", padding: 3 }}>
@@ -146,7 +169,17 @@ const BranchesList = ({
                     <Tooltip title="Edit">
                       <IconButton
                         color="primary"
-                        onClick={() => handleEdit(branch.id)}
+                        onClick={() =>{ 
+                          setContent({
+                            name: branch.name,
+                            street_name: branch.street_name,
+                            phone:branch.phone
+                          });
+                          setBranchData({
+                            branchId: branch.id,
+                            active: branch.active,
+                          });
+                          handleShowEditModel()}}
                       >
                         <EditIcon />
                       </IconButton>
@@ -199,6 +232,21 @@ const BranchesList = ({
         itemName={itemName}
         fun={addNewBranch}
         handleCloseModel={handleCloseAddModel}
+        content={content}
+        setContent={setContent}
+      />
+      
+      <EditModal
+        snackBarText={BranchSelector.snackBarMessage}
+        snackBarStatus={BranchSelector.snackBarStatus}
+        show={showEditModal}
+        setShow={setShowEditModal}
+        handleShowModel={handleShowEditModel}
+        setModalContent={setContent}
+        id={branchData.branchId}
+        itemName={itemName}
+        fun={updateCurrentBranch}
+        handleCloseModel={handleCloseEditModel}
         content={content}
         setContent={setContent}
       />

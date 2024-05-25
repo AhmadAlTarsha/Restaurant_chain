@@ -3,7 +3,6 @@ import axios from "axios";
 const url = "http://localhost:5001/";
 
 export const getBranches = async () => {
- 
   try {
     const result = await axios.get(`${url}branch`);
 
@@ -17,21 +16,16 @@ export const getBranches = async () => {
 };
 
 export const deleteBranch = async (payload) => {
- 
- 
   try {
-    const result = await axios.delete(
-      `${url}branch/${payload.branchId}`,
-    );
+    const result = await axios.delete(`${url}branch/${payload.branchId}`);
 
     if (!result.data?.error) {
-      const branches=await getBranches()
+      const branches = await getBranches();
 
-   
-      return({
-message:result.data?.message,
-branches:branches
-     } )
+      return {
+        message: result.data?.message,
+        branches: branches,
+      };
     }
   } catch (err) {
     console.error("ERROR ====> ", err.response.data.message);
@@ -39,47 +33,49 @@ branches:branches
   }
 };
 
-export const addBranch= async (payload) => {
-console.log(payload);
+export const addBranch = async (payload) => {
+  console.log(payload);
   try {
-    const result = await axios.post(`${url}branch`,{name:payload.name,phone:payload.phone,street_name:payload.street_name});
+    const result = await axios.post(`${url}branch`, {
+      name: payload.name,
+      phone: payload.phone,
+      street_name: payload.street_name,
+    });
 
     if (!result.data?.error) {
-      const branches=await getBranches()
+      const branches = await getBranches();
 
-   
-      return({
-message:result.data?.message,
-branches:branches
-     } )
-        
+      return {
+        message: result.data?.message,
+        branches: branches,
+      };
     }
   } catch (err) {
     console.log("ERROR ====> ", err.response.data.message);
     throw err.response.data.message;
   }
 };
-export const editBranch= async (payload) => {
-
+export const editBranch = async (payload) => {
+  console.log(payload.branchId);
 
   try {
-    const result = await axios.put(`${url}branch/${payload.branch}`,{name:payload.content.trim()});
+    const result = await axios.put(`${url}branch/${payload.branchId}`, {
+      name: payload.content.name.trim(),
+      street_name: payload.content.street_name.trim(),
+      phone: payload.content.phone.trim(),
+    });
 
     if (!result.data?.error) {
+      const branches = await getBranches();
 
-
-      const branches=await getBranches()
-
-   
-      return({
-message:result.data?.message,
-branches:branches
-     } )
-
+      return {
+        message: result.data?.message,
+        branches: branches,
+      };
     }
   } catch (err) {
     console.log("ERROR  from editing====> ", err);
-   
+
     throw err.response.data.message;
   }
 };

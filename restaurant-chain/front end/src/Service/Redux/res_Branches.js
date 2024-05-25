@@ -59,7 +59,7 @@ export const BranchesSlice = createSlice({
       })
       .addCase(GetBranchesState.fulfilled, (state, action) => {
 
-        console.log(action);
+        
         state.isLoading = false;
         state.branches = action.payload;
         state.errorMessage = {
@@ -85,26 +85,27 @@ export const BranchesSlice = createSlice({
         };
       })
       .addCase(EditBranchesState.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.snackBarMessage = action.payload.message;
         state.branchUpdate = false;
 
         state.snackBarStatus = "success";
-        state.branchUpdate = action.payload.menu;
+        state.branches = action.payload.branches;
         state.errorMessage = {
           isError: false,
-          message: " item updated",
+          message: " branch updated",
         };
       })
       .addCase(EditBranchesState.rejected, (state, action) => {
         state.errorMessage = {
           isError: true,
           // return err
-          message: `${action.payload ?? "Error update menu"}`,
+          message: `${action.payload ?? "Error update branch"}`,
         };
         // state.colorUpdate = false;
         state.snackBarStatus = "error";
         state.snackBarMessage = action.error.message;
-        state.menuUpdate = false;
+        state.branchUpdate = false;
       });
 
     // //================================================================Add cases

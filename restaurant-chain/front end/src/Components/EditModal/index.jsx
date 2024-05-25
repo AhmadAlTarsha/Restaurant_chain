@@ -17,6 +17,8 @@ const EditModal = ({
   snackBarText,
   snackBarStatus,
 }) => {
+
+  
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   return (
@@ -31,8 +33,9 @@ const EditModal = ({
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label>current name</Form.Label>
+             
               {typeof content === "string" ? (
+                <> <Form.Label>current name</Form.Label>
                 <Form.Control
                   onChange={(e) => {
                     setContent(e.target.value);
@@ -40,10 +43,12 @@ const EditModal = ({
                   value={content}
                   as="textarea"
                   rows={3}
-                />
+                /></>
+                
               ) : (
                 Object.keys(content).map((key, index) => {
-                  return (
+                  
+                  return (<><Form.Label>current {key}</Form.Label>
                     <Form.Control
                       key={index}
                       onChange={(e) => {
@@ -55,7 +60,8 @@ const EditModal = ({
                       value={content[key]}
                       as="textarea"
                       rows={3}
-                    />
+                    /></>
+                    
                   );
                 })
               )}
@@ -80,7 +86,7 @@ const EditModal = ({
             Save Changes
           </Button>
         </Modal.Footer>
-      </Modal>{" "}
+      </Modal>
       <SimpleSnackbar
         open={openSnackbar}
         setOpen={setOpenSnackbar}
