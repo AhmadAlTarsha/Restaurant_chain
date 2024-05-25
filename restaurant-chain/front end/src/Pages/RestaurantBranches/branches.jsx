@@ -9,21 +9,20 @@ import AddModal from "../../Components/AddModal";
 import {
   GetBranchesState,
   DeleteBranchesState,
-  AddBranchesState
 } from "../../Service/Redux/res_Branches";
 const Branches = () => {
   const itemName = "branch";
-  const [content, setContent] = useState("");
+  // const [content, setContent] = useState("");
 
 
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  // const [showAddModal, setShowAddModal] = useState(false);
+  // const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const [snackBarText, setSnackBarText] = useState("");
-  const [snackBarStatus, setSnackBarStatus] = useState("");
+  // const [snackBarText, setSnackBarText] = useState("");
+  // const [snackBarStatus, setSnackBarStatus] = useState("");
 
-  const handleShowAddModel = () => setShowAddModal(true);
-  const handleCloseAddModel = () => setShowAddModal(false);
+  // const handleShowAddModel = () => setShowAddModal(true);
+  // const handleCloseAddModel = () => setShowAddModal(false);
   const dispatch = useDispatch();
 
   const BranchSelector = useSelector((state) => {
@@ -32,25 +31,7 @@ const Branches = () => {
 
   const branches = BranchSelector.branches;
  
-  const addNewBranch = async (con) => {
-console.log(con);
-    // if (!image.name|| !partner.trim()) {
-    //   setSnackBarText("image or name is undefine");
-    //   setSnackBarStatus("error")
-    //   setTimeout(() => {
-    //     setOpenSnackbar(true);
-    //   }, 1000);
-    // }else{
-    //     dispatch(AddBranchesState({ image,partner }));
-    //     setSnackBarText("partner added successfully");
-    //     setSnackBarStatus("success")
-    //   setTimeout(() => {
-    //     setOpenSnackbar(true);
-    //   }, 1000);
-    // }
-
-    // handleCloseAddModel();
-  };
+ 
 
   const deleteCurrentBranch = async (branchId, active) => {
     dispatch(
@@ -82,21 +63,16 @@ console.log(con);
             deleteCurrentBranch={deleteCurrentBranch}
             handleEdit={handleEdit}
             branchUpdate={BranchSelector.branchUpdate}
+            BranchSelector={BranchSelector}
+            itemName={itemName}
+            
+            // add={<AddModal/>}
           />
         </Container>
       ) : (
         <CenteredCircularProgress />
       )}
-      <AddModal  snackBarText={BranchSelector.snackBarMessage}
-        snackBarStatus={BranchSelector.snackBarStatus}
-        show={showAddModal}
-        setShow={setShowAddModal}
-        handleShowModel={handleShowAddModel}
-        itemName={itemName}
-        fun={addNewBranch}
-        handleCloseModel={handleCloseAddModel}
-        content={content}
-        setContent={setContent} />
+   
     </>
   );
 };

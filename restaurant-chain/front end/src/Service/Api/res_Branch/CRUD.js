@@ -42,7 +42,7 @@ branches:branches
 export const addBranch= async (payload) => {
 console.log(payload);
   try {
-    const result = await axios.post(`${url}menu`,{name:payload.branch});
+    const result = await axios.post(`${url}branch`,{name:payload.name,phone:payload.phone,street_name:payload.street_name});
 
     if (!result.data?.error) {
       const branches=await getBranches()

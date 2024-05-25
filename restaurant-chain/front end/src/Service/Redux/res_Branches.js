@@ -119,9 +119,10 @@ export const BranchesSlice = createSlice({
       })
       .addCase(AddBranchesState.fulfilled, (state, action) => {
         state.branchUpdate = false;
-
+console.log(action.payload);
         state.snackBarMessage = action.payload.message;
-        state.branches = action.payload.menu;
+        state.branches = action.payload.branches
+        ;
         state.snackBarStatus = "success";
         state.errorMessage = {
           isError: true,

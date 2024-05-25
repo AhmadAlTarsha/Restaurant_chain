@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useTheme } from "@mui/material/styles";
+
 import {
   TableContainer,
   Paper,
@@ -14,22 +17,69 @@ import {
   Backdrop,
   CircularProgress,
   Box,
+  // Dialog,
+  // DialogTitle,
+  // DialogContent,
+  // DialogActions,
+  // TextField,
 } from "@mui/material";
+import { AddBranchesState } from "../../Service/Redux/res_Branches";
 import { styled } from "@mui/material/styles";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddModal from "../../Components/AddModal";
+import SimpleSnackbar from "../../Components/Snackbar";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.common.white,
   fontWeight: "bold",
 }));
+
 const BranchesList = ({
   branches,
   deleteCurrentBranch,
   handleEdit,
   branchUpdate,
+  BranchSelector,
+  itemName,
 }) => {
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const [snackBarText, setSnackBarText] = useState("");
+  const [snackBarStatus, setSnackBarStatus] = useState("");
+
+  const handleShowAddModel = () => setShowAddModal(true);
+  const handleCloseAddModel = () => setShowAddModal(false);
+
+  const dispatch = useDispatch();
+
+  const [content, setContent] = useState({
+    name: "",
+    street_name: "",
+    phone: "",
+  });
+
+  const addNewBranch = async ({ name, phone, street_name }) => {
+  
+    if (!name.trim() || !phone.trim() || !street_name.trim()) {
+      setSnackBarText("some info is undefine");
+      setSnackBarStatus("error");
+      setTimeout(() => {
+        setOpenSnackbar(true);
+      }, 1000);
+    } else {
+      dispatch(AddBranchesState({ name, phone, street_name }));
+      setSnackBarText("branch added successfully");
+      setSnackBarStatus("success");
+      setTimeout(() => {
+        setOpenSnackbar(true);
+      }, 1000);
+    }
+
+    handleCloseAddModel();
+  };
   return (
     <Box sx={{ backgroundColor: "lightgray", minHeight: "100vh", padding: 3 }}>
       <Backdrop
@@ -38,6 +88,25 @@ const BranchesList = ({
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginTop: 3,
+        }}
+      >
+        <Typography variant="h4">Branches</Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            handleShowAddModel();
+          }}
+        >
+          Add Branch
+        </Button>
+      </Box>
       {!(branches?.length === 0) ? (
         <TableContainer component={Paper} sx={{ marginTop: 3 }}>
           <Table aria-label="branches table">
@@ -83,14 +152,72 @@ const BranchesList = ({
           <Typography variant="h6" gutterBottom>
             There are no branches added yet.
           </Typography>
-          <Button variant="contained" color="primary">
-            Add Branch
-          </Button>
         </Paper>
       )}
-      
+      <AddModal
+        snackBarText={BranchSelector.snackBarMessage}
+        snackBarStatus={BranchSelector.snackBarStatus}
+        show={showAddModal}
+        setShow={setShowAddModal}
+        handleShowModel={handleShowAddModel}
+        itemName={itemName}
+        fun={addNewBranch}
+        handleCloseModel={handleCloseAddModel}
+        content={content}
+        setContent={setContent}
+      />
+      <SimpleSnackbar
+        open={openSnackbar}
+        setOpen={setOpenSnackbar}
+        text={snackBarText}
+        status={snackBarStatus}
+      />
     </Box>
   );
 };
 
 export default BranchesList;
+
+{
+  /* <Dialog open={openAddDialog} onClose={handleClose}>
+        <DialogTitle>Add New Branch</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            name="name"
+            label="Branch Name"
+            type="text"
+            fullWidth
+            value={newBranch.name}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="dense"
+            name="location"
+            label="Location"
+            type="text"
+            fullWidth
+            value={newBranch.location}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="dense"
+            name="location"
+            label="Location"
+            type="text"
+            fullWidth
+            value={newBranch.location}
+            onChange={handleChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} color="primary">
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog> */
+}
