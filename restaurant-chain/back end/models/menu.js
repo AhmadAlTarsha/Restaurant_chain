@@ -21,9 +21,7 @@ const Menu= sequelize.define(
         type: DataTypes.STRING,
         allowNull: false,
         required: true,
-        unique: {
-          msg: "this menu in use",
-        },
+    
       },
     created_at: {
       type: DataTypes.DATE,

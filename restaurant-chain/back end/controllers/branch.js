@@ -2,6 +2,8 @@ const Branch = require("../models/branch");
 const Menu = require("../models/menu");
 const BranchMenu = require("../models/branch_menu");
 const { throwError } = require("../middleware/throwError");
+const { Op } = require('sequelize'); 
+
 
 exports.addBranch = async (req, res, next) => {
   const { name, phone, street_name } = req.body;
@@ -126,7 +128,7 @@ exports.getBranchById = async (req, res, next) => {
         message: "Branch not found",
       });
     }
-    
+
     const menuNames = result.Branches_Menus.map((item) => item.Menu.name);
 
     return res.status(200).json({
@@ -155,6 +157,20 @@ exports.editBranch = async (req, res, next) => {
   const { name, phone, street_name } = req.body;
 
   try {
+
+    const existingBranch = await Branch.findOne({
+      where: {
+        name,
+        active: 1,
+        id: { [Op.ne]: id } 
+      }
+    });
+    if (existingBranch) {
+      return res.status(400).json({
+        error: true,
+        message: "branch name in use"
+      });
+    }
     const result = await Branch.update(
       { name, phone, street_name },
       { where: { id } }
@@ -165,14 +181,20 @@ exports.editBranch = async (req, res, next) => {
         message: "Account info in use",
       });
     }
-    if (result) {
-      return res.status(200).json({
-        error: false,
-        message: "Account updated successfully",
+      
+    if (result[0] === 0) {
+      return res.status(404).json({
+        error: true,
+        message: "branch not found or no changes made",
       });
     }
 
-    return throwError(400, "Something went wrong");
+    return res.status(200).json({
+      error: false,
+      message: "branch updated successfully",
+    });
+
+  
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;

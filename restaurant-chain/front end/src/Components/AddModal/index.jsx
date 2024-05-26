@@ -14,21 +14,21 @@ const AddModal = ({
   content,
   setContent,
 }) => {
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  // const [openSnackbar, setOpenSnackbar] = useState(false);
   const [newText, setNewText] = useState("");
 
   const handleSaveChanges = () => {
     if (typeof content === "string") {
       fun(newText.trim());
-      setTimeout(() => {
-        setOpenSnackbar(true);
-      }, 1000);
+      // setTimeout(() => {
+      //   setOpenSnackbar(true);
+      // }, 1000);
       setNewText("");
     } else {
       fun(content);
-      setTimeout(() => {
-        setOpenSnackbar(true);
-      }, 1000);
+      // setTimeout(() => {
+      //   setOpenSnackbar(true);
+      // }, 1000);
     }
     handleCloseModel();
   };
@@ -113,12 +113,12 @@ const AddModal = ({
         </Modal.Footer>
       </Modal>
 
-      <SimpleSnackbar
+      {/* <SimpleSnackbar
         open={openSnackbar}
         setOpen={setOpenSnackbar}
         text={snackBarText}
         status={snackBarStatus}
-      />
+      /> */}
     </>
   );
 };

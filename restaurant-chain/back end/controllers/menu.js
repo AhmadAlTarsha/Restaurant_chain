@@ -1,5 +1,5 @@
 const Menu = require("../models/menu");
-
+const { Op } = require('sequelize'); 
 exports.addMenu = async (req, res, next) => {
   const { name } = req.body;
 
@@ -63,21 +63,38 @@ exports.editMenu = async (req, res, next) => {
   const { name } = req.body;
 
   try {
-    const result = await Menu.update({ name }, { where: { id } });
-    if (result.sqlMessage) {
-      return res.status(200).json({
-        error: false,
-        message: "menu name in use",
-      });
-    }
-    if (result) {
-      return res.status(200).json({
-        error: false,
-        message: "menu updated successfully",
+
+    const existingMenu = await Menu.findOne({
+      where: {
+        name,
+        active: 1,
+        id: { [Op.ne]: id } 
+      }
+    });
+
+    if (existingMenu) {
+      return res.status(400).json({
+        error: true,
+        message: "Menu name in ",
       });
     }
 
-    return throwError(400, "Something went wrong");
+    const result = await Menu.update({ name }, { where: { id } });
+   
+    if (result[0] === 0) {
+      return res.status(404).json({
+        error: true,
+        message: "Menu not found or no changes made",
+      });
+    }
+
+    return res.status(200).json({
+      error: false,
+      message: "Menu updated successfully",
+    });
+
+
+   
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
