@@ -51,7 +51,7 @@ const Menu = () => {
     return state.menu;
   });
 
-  const menu = menuSelector.menu?.filter((item) => {
+  const menu = menuSelector?.menu?.filter((item) => {
     return item.active === 1;
   });
 
@@ -214,7 +214,7 @@ const Menu = () => {
             loading={menuSelector.menuUpdate}
             {...menuSelector.menu}
             initialState={{
-              ...menu.initialState,
+              ...menu?.initialState,
               pagination: { paginationModel: { pageSize: 25 } },
             }}
             pageSizeOptions={[25, 50, 75]}

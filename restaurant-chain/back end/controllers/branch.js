@@ -7,16 +7,18 @@ exports.addBranch = async (req, res, next) => {
   const { name, phone, street_name } = req.body;
 
   try {
-    const result = await Branch.findOrCreate({
-      where: { name },
-      defaults: {
-        name,
-        phone,
-        street_name,
-      },
-    });
 
-    if (!result[0]._options.isNewRecord) {
+  const [branch, created] = await Branch.findOrCreate({
+    where: { name, active: 1 },
+    defaults: {
+      name,
+      phone,
+      street_name,
+      active: 1, 
+    },
+  });
+
+    if (!created) {
       return res.status(401).json({
         error: true,
         message: "Branch Already Exist",
@@ -124,6 +126,7 @@ exports.getBranchById = async (req, res, next) => {
         message: "Branch not found",
       });
     }
+    
     const menuNames = result.Branches_Menus.map((item) => item.Menu.name);
 
     return res.status(200).json({
