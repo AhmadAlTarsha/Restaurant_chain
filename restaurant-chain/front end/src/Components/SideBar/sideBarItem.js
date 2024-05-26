@@ -4,6 +4,7 @@ import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import RestaurantMenuOutlinedIcon from '@mui/icons-material/RestaurantMenuOutlined';
+import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 
 
 export const drawerItem = [
@@ -18,5 +19,10 @@ export const drawerItem = [
       icon: <RestaurantMenuOutlinedIcon/>,
       label: "Menu",
       path: "/menu",
+    },
+    {
+      icon: <MenuBookOutlinedIcon/>,
+      label: "branches Menu",
+      path: "/branches-menu",
     },
   ];

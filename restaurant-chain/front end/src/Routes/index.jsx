@@ -6,6 +6,9 @@ import Admin from "../Pages/Admin/admin";
 
 import Main from "../Layouts";
 import Menu from "../Pages/Menu/index";
+import BranchesMenus from "../Pages/Restaurant_Menu";
+
+import { CssBaseline } from '@mui/material';
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +26,13 @@ export const router = createBrowserRouter([
       {
         path: "menu",
         element: <Menu />,
+      },
+      {
+        path: "branches-menu",
+        element:  <>
+        <CssBaseline />
+        <BranchesMenus />
+      </>,
       },
     ],
   },
