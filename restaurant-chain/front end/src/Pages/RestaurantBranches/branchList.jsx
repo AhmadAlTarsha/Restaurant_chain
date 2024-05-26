@@ -24,7 +24,7 @@ import ConfirmedAndEditDialog from "../../Components/ConfirmedDialog";
 import {
   AddBranchesState,
   DeleteBranchesState,
-  EditBranchesState
+  EditBranchesState,
 } from "../../Service/Redux/res_Branches";
 
 import { styled } from "@mui/material/styles";
@@ -66,7 +66,7 @@ const BranchesList = ({
     setShowEditModal(false);
     setContent(emptyContent);
   };
-  
+
   const dispatch = useDispatch();
 
   const [content, setContent] = useState({
@@ -77,7 +77,7 @@ const BranchesList = ({
   const emptyContent = {
     name: "",
     street_name: "",
-    phone:""
+    phone: "",
   };
   const [branchData, setBranchData] = useState({
     branchId: 0,
@@ -102,9 +102,9 @@ const BranchesList = ({
     }
 
     handleCloseAddModel();
-    setContent(emptyContent)
+    setContent(emptyContent);
   };
-//-------------------------------------------------------------------------------------this function delete selected branch from db
+  //-------------------------------------------------------------------------------------this function delete selected branch from db
   const deleteCurrentBranch = (branchId, active) => {
     dispatch(
       DeleteBranchesState({
@@ -114,11 +114,22 @@ const BranchesList = ({
     );
     handleCloseConfirmedDialog();
   };
-
+  //-------------------------------------------------------------------------------------this function edit selected branch from db
   const updateCurrentBranch = async (branchId) => {
+    if (
+      content.name.trim() ||
+      content.phone.trim() ||
+      content.street_name.trim()
+    ) {
+      setSnackBarText("some info is undefine");
+      setSnackBarStatus("error");
+      setTimeout(() => {
+        setOpenSnackbar(true);
+      }, 1000);
+    } else {
+      dispatch(EditBranchesState({ branchId, content }));
+    }
 
-    console.log(branchId,content);
-    dispatch(EditBranchesState({ branchId, content }));
     handleCloseEditModel();
   };
   return (
@@ -169,17 +180,18 @@ const BranchesList = ({
                     <Tooltip title="Edit">
                       <IconButton
                         color="primary"
-                        onClick={() =>{ 
+                        onClick={() => {
                           setContent({
                             name: branch.name,
                             street_name: branch.street_name,
-                            phone:branch.phone
+                            phone: branch.phone,
                           });
                           setBranchData({
                             branchId: branch.id,
                             active: branch.active,
                           });
-                          handleShowEditModel()}}
+                          handleShowEditModel();
+                        }}
                       >
                         <EditIcon />
                       </IconButton>
@@ -235,7 +247,7 @@ const BranchesList = ({
         content={content}
         setContent={setContent}
       />
-      
+
       <EditModal
         snackBarText={BranchSelector.snackBarMessage}
         snackBarStatus={BranchSelector.snackBarStatus}
