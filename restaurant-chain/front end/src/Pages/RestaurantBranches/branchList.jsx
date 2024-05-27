@@ -115,17 +115,21 @@ const BranchesList = ({
     handleCloseConfirmedDialog();
   };
   //-------------------------------------------------------------------------------------this function edit selected branch from db
-  const updateCurrentBranch = async (branchId) => {
-    if (
-      content.name.trim() ||
-      content.phone.trim() ||
-      content.street_name.trim()
+  const updateCurrentBranch =  (branchId) => {
+
+   
+    if (!( content.name.trim() &&
+      content.phone.trim() &&
+      content.street_name.trim())
+     
     ) {
+      
+   
       setSnackBarText("some info is undefine");
       setSnackBarStatus("error");
-      setTimeout(() => {
-        setOpenSnackbar(true);
-      }, 1000);
+      // setTimeout(() => {
+      //   setOpenSnackbar(true);
+      // }, 1000);
     } else {
       dispatch(EditBranchesState({ branchId, content }));
     }

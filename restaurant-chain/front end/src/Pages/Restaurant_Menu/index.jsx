@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { GetBranchesState } from "../../Service/Redux/res_Branches";
 import { GetMenuState } from "../../Service/Redux/Menu";
+import { AddMenuToBranchState } from "../../Service/Redux/res_bra_menu";
 
 import {
   Container,
@@ -33,47 +34,44 @@ const BranchesAndMenus = () => {
   const branches = BranchSelector.branches;
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(GetBranchesState());
-    dispatch(GetMenuState());
-  }, [dispatch]);
-
-  const handleBranchSelect = (branchId) => {
+  const handleBranchSelect = (branch_id) => {
     const branchMenu =
       branches
-        .filter((branch) => branch.id === branchId)
+        .filter((branch) => branch.id === branch_id)
         .map((branch) => branch.Branch_Menu)[0] || [];
     const result = allMenu.filter((item) => !branchMenu.includes(item.name));
 
     setTargetMenu(result);
-    setSelectedBranch(branchId);
+    setSelectedBranch(branch_id);
     setSelectedMenuItems([]);
   };
 
-  const handleMenuSelect = (menuId) => {
+  const handleMenuSelect = (menu_id) => {
     setSelectedMenuItems((prevSelected) => {
       const isSelected = prevSelected.some(
-        (item) => item.branchId === selectedBranch && item.menuId === menuId
+        (item) => item.branch_id === selectedBranch && item.menu_id === menu_id
       );
 
       if (isSelected) {
         return prevSelected.filter(
           (item) =>
-            !(item.branchId === selectedBranch && item.menuId === menuId)
+            !(item.branch_id === selectedBranch && item.menu_id === menu_id)
         );
       } else {
-        return [...prevSelected, { branchId: selectedBranch, menuId }];
+        return [...prevSelected, { branch_id: selectedBranch, menu_id }];
       }
     });
   };
 
-  const handleAddItemsToBranches =async () => {
+  const handleAddItemsToBranches = async () => {
     if (selectedBranch && selectedMenuItems.length > 0) {
-   
-dispatch()
-
+      dispatch(AddMenuToBranchState({ selectedMenuItems }));
     }
   };
+  useEffect(() => {
+    dispatch(GetBranchesState());
+    dispatch(GetMenuState());
+  }, [dispatch]);
 
   return (
     <Container style={{ marginTop: "32px" }}>
@@ -125,8 +123,8 @@ dispatch()
                       <Checkbox
                         checked={selectedMenuItems.some(
                           (item) =>
-                            item.branchId === selectedBranch &&
-                            item.menuId === menu.id
+                            item.branch_id === selectedBranch &&
+                            item.menu_id === menu.id
                         )}
                         onChange={() => handleMenuSelect(menu.id)}
                       />

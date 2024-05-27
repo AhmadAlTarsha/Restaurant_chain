@@ -33,6 +33,7 @@ const BranchOpeningHours = require("./models/branch_opening_hours");
 const branchRouter = require("./routes/branch");
 const menuRouter = require("./routes/menu");
 const branchMenuRouter = require("./routes/branch_menu");
+const branchOpiningRouter = require("./routes/branch_opining");
 
 
 
@@ -40,6 +41,7 @@ const branchMenuRouter = require("./routes/branch_menu");
 app.use("/branch", branchRouter);
 app.use("/menu", menuRouter);
 app.use("/branch_menu", branchMenuRouter);
+app.use("/branch_opining", branchOpiningRouter);
 // app.use("/type_permission", TypePermission);
 // app.use("/permissions", PermissionRouter);
 // app.use("/region", RegionRouter);
