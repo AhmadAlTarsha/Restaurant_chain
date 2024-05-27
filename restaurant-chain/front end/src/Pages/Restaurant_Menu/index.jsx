@@ -10,7 +10,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  Radio,
+  Checkbox,
   Button,
   Grid,
   Card,
@@ -19,30 +19,18 @@ import {
 
 const BranchesAndMenus = () => {
   const [targetMenu, setTargetMenu] = useState([]);
- 
   const [selectedBranch, setSelectedBranch] = useState(null);
+  const [selectedMenuItems, setSelectedMenuItems] = useState([]);
 
   const BranchSelector = useSelector((state) => {
     return state.branch;
   });
-  //   const menuSelector = useSelector((state) => {
-  //     return state.menu;
-  //   });
 
-  //   const allMenu = menuSelector.menu.filter((item) => {
-  //     return item.active === 1;
-  //   });
-  //   const a = allMenu.map((item) => {
-  //     return item.name;
-  //   });
   const allMenu = useSelector((state) =>
     state.menu.menu.filter((item) => item.active === 1).map((item) => item)
   );
 
-
-
   const branches = BranchSelector.branches;
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -55,23 +43,42 @@ const BranchesAndMenus = () => {
       branches
         .filter((branch) => branch.id === branchId)
         .map((branch) => branch.Branch_Menu)[0] || [];
-   
     const result = allMenu.filter((item) => !branchMenu.includes(item.name));
 
-   
     setTargetMenu(result);
     setSelectedBranch(branchId);
+    setSelectedMenuItems([]);
   };
 
-  const handleAddItemsToBranches = () => {
-    // // Implement the logic to add selected items to selected branch
-    // console.log("Selected Branch:", selectedBranch);
+  const handleMenuSelect = (menuId) => {
+    setSelectedMenuItems((prevSelected) => {
+      const isSelected = prevSelected.some(
+        (item) => item.branchId === selectedBranch && item.menuId === menuId
+      );
+
+      if (isSelected) {
+        return prevSelected.filter(
+          (item) =>
+            !(item.branchId === selectedBranch && item.menuId === menuId)
+        );
+      } else {
+        return [...prevSelected, { branchId: selectedBranch, menuId }];
+      }
+    });
+  };
+
+  const handleAddItemsToBranches =async () => {
+    if (selectedBranch && selectedMenuItems.length > 0) {
+   
+dispatch()
+
+    }
   };
 
   return (
     <Container style={{ marginTop: "32px" }}>
       <Typography variant="h4" gutterBottom style={{ marginBottom: "16px" }}>
-        branches menu
+        Branches Menu
       </Typography>
       <Grid
         container
@@ -96,13 +103,6 @@ const BranchesAndMenus = () => {
                         : {}
                     }
                   >
-                    <Radio
-                      checked={selectedBranch === branch.id}
-                      onChange={() => handleBranchSelect(branch.id)}
-                      value={branch.id}
-                      name="radio-button-demo"
-                      inputProps={{ "aria-label": branch.name }}
-                    />
                     <ListItemText primary={branch.name} />
                   </ListItem>
                 ))}
@@ -122,6 +122,14 @@ const BranchesAndMenus = () => {
                 <List style={{ maxHeight: "300px", overflow: "auto" }}>
                   {targetMenu.map((menu) => (
                     <ListItem key={menu.id}>
+                      <Checkbox
+                        checked={selectedMenuItems.some(
+                          (item) =>
+                            item.branchId === selectedBranch &&
+                            item.menuId === menu.id
+                        )}
+                        onChange={() => handleMenuSelect(menu.id)}
+                      />
                       <ListItemText primary={menu.name} />
                     </ListItem>
                   ))}
