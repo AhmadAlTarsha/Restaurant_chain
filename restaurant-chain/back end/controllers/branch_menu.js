@@ -2,39 +2,25 @@ const BranchMenu = require("../models/branch_menu");
 
 
 
-
 exports.addBranchMenu = async (req, res, next) => {
-    const { branch_id, menu_id } = req.body;
+  const branchMenus = req.body; // Assuming req.body is an array of objects
 
-    try {
-        const [result, created] = await BranchMenu.findOrCreate({
-            where: {
-                branch_id,
-                menu_id
-            },
-            defaults: {
-                branch_id,
-                menu_id
-            }
-        });
+  try {
+      const result = await BranchMenu.bulkCreate(branchMenus, {
+          ignoreDuplicates: true // This will ignore duplicate entries based on unique constraints
+      });
 
-        if (!created) {
-            return res.status(401).json({
-                error: true,
-                message: "Branch_menu Already Exists"
-            });
-        }
-
-        return res.status(200).json({
-            error: false,
-            message: "Branch_menu Created Successfully"
-        });
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-        next(err);
-    }
+      return res.status(200).json({
+          error: false,
+          message: "Branch_menus Created Successfully",
+          createdBranchMenus: result
+      });
+  } catch (err) {
+      if (!err.statusCode) {
+          err.statusCode = 500;
+      }
+      next(err);
+  }
 };
 exports.deleteMenuFormBranch = async (req, res) => {
     const { id } = req.params;

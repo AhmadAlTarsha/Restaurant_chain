@@ -1,100 +1,108 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { GetBranchesState } from "../../Service/Redux/res_Branches";
+import { GetMenuState } from "../../Service/Redux/Menu";
+
 import {
   Container,
   Typography,
   List,
   ListItem,
   ListItemText,
-  Checkbox,
+  Radio,
   Button,
   Grid,
   Card,
   CardContent,
-} from '@mui/material';
-import { styled } from '@mui/system';
-
-const useStyles = styled((theme) => ({
-  container: {
-    marginTop: theme.spacing(4),
-  },
-  card: {
-    marginBottom: theme.spacing(2),
-  },
-  list: {
-    maxHeight: 300,
-    overflow: 'auto',
-  },
-  button: {
-    marginTop: theme.spacing(2),
-  },
-  gridContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  title: {
-    marginBottom: theme.spacing(2),
-  },
-}));
+} from "@mui/material";
 
 const BranchesAndMenus = () => {
-  const classes = useStyles();
-  const [branches, setBranches] = useState([]);
-  const [menus, setMenus] = useState([]);
-  const [selectedBranches, setSelectedBranches] = useState([]);
-  const [selectedMenus, setSelectedMenus] = useState([]);
+  const [targetMenu, setTargetMenu] = useState([]);
+ 
+  const [selectedBranch, setSelectedBranch] = useState(null);
+
+  const BranchSelector = useSelector((state) => {
+    return state.branch;
+  });
+  //   const menuSelector = useSelector((state) => {
+  //     return state.menu;
+  //   });
+
+  //   const allMenu = menuSelector.menu.filter((item) => {
+  //     return item.active === 1;
+  //   });
+  //   const a = allMenu.map((item) => {
+  //     return item.name;
+  //   });
+  const allMenu = useSelector((state) =>
+    state.menu.menu.filter((item) => item.active === 1).map((item) => item)
+  );
+
+
+
+  const branches = BranchSelector.branches;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Fetch branches and menus from API (replace with your actual API calls)
-    setBranches([
-      { id: 1, name: 'Branch 1' },
-      { id: 2, name: 'Branch 2' },
-      { id: 3, name: 'Branch 3' },
-    ]);
-    setMenus([
-      { id: 1, name: 'Menu 1' },
-      { id: 2, name: 'Menu 2' },
-      { id: 3, name: 'Menu 3' },
-    ]);
-  }, []);
+    dispatch(GetBranchesState());
+    dispatch(GetMenuState());
+  }, [dispatch]);
 
-  const handleBranchToggle = (branchId) => {
-    setSelectedBranches((prevSelected) =>
-      prevSelected.includes(branchId)
-        ? prevSelected.filter((id) => id !== branchId)
-        : [...prevSelected, branchId]
-    );
-  };
+  const handleBranchSelect = (branchId) => {
+    const branchMenu =
+      branches
+        .filter((branch) => branch.id === branchId)
+        .map((branch) => branch.Branch_Menu)[0] || [];
+   
+    const result = allMenu.filter((item) => !branchMenu.includes(item.name));
 
-  const handleMenuToggle = (menuId) => {
-    setSelectedMenus((prevSelected) =>
-      prevSelected.includes(menuId)
-        ? prevSelected.filter((id) => id !== menuId)
-        : [...prevSelected, menuId]
-    );
+   
+    setTargetMenu(result);
+    setSelectedBranch(branchId);
   };
 
   const handleAddItemsToBranches = () => {
-    // Implement the logic to add selected items to selected branches
-    console.log('Selected Branches:', selectedBranches);
-    console.log('Selected Menus:', selectedMenus);
+    // // Implement the logic to add selected items to selected branch
+    // console.log("Selected Branch:", selectedBranch);
   };
 
   return (
-    <Container className={classes.container}>
-      <Typography variant="h4" gutterBottom className={classes.title}>
-        Restaurant Chain Management
+    <Container style={{ marginTop: "32px" }}>
+      <Typography variant="h4" gutterBottom style={{ marginBottom: "16px" }}>
+        branches menu
       </Typography>
-      <Grid container spacing={4} className={classes.gridContainer}>
+      <Grid
+        container
+        spacing={4}
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
         <Grid item xs={12} md={6}>
-          <Card className={classes.card}>
+          <Card style={{ marginBottom: "16px" }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
-                Select Branches
+                Select Branch
               </Typography>
-              <List className={classes.list}>
+              <List style={{ maxHeight: "300px", overflow: "auto" }}>
                 {branches.map((branch) => (
-                  <ListItem key={branch.id} button onClick={() => handleBranchToggle(branch.id)}>
-                    <Checkbox checked={selectedBranches.includes(branch.id)} />
+                  <ListItem
+                    key={branch.id}
+                    button
+                    onClick={() => handleBranchSelect(branch.id)}
+                    style={
+                      selectedBranch === branch.id
+                        ? { backgroundColor: "#3f51b5", color: "#fff" }
+                        : {}
+                    }
+                  >
+                    <Radio
+                      checked={selectedBranch === branch.id}
+                      onChange={() => handleBranchSelect(branch.id)}
+                      value={branch.id}
+                      name="radio-button-demo"
+                      inputProps={{ "aria-label": branch.name }}
+                    />
                     <ListItemText primary={branch.name} />
                   </ListItem>
                 ))}
@@ -103,33 +111,37 @@ const BranchesAndMenus = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Select Menus
-              </Typography>
-              <List className={classes.list}>
-                {menus.map((menu) => (
-                  <ListItem key={menu.id} button onClick={() => handleMenuToggle(menu.id)}>
-                    <Checkbox checked={selectedMenus.includes(menu.id)} />
-                    <ListItemText primary={menu.name} />
-                  </ListItem>
-                ))}
-              </List>
-            </CardContent>
-          </Card>
-        </Grid>
+        {selectedBranch && (
+          <Grid item xs={12} md={6}>
+            <Card style={{ marginBottom: "16px" }}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Select Menus for{" "}
+                  {branches.find((b) => b.id === selectedBranch)?.name}
+                </Typography>
+                <List style={{ maxHeight: "300px", overflow: "auto" }}>
+                  {targetMenu.map((menu) => (
+                    <ListItem key={menu.id}>
+                      <ListItemText primary={menu.name} />
+                    </ListItem>
+                  ))}
+                </List>
+              </CardContent>
+            </Card>
+          </Grid>
+        )}
       </Grid>
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleAddItemsToBranches}
-        className={classes.button}
-      >
-        Add Items to Selected Branches
-      </Button>
+      {selectedBranch && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleAddItemsToBranches}
+          style={{ marginTop: "16px" }}
+        >
+          Add Items to Selected Branch
+        </Button>
+      )}
     </Container>
   );
 };
