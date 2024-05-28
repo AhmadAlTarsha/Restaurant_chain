@@ -23,6 +23,7 @@ const Branch = require("./models/branch");
 const Menu = require("./models/menu");
 const BranchMenu = require("./models/branch_menu");
 const BranchOpeningHours = require("./models/branch_opening_hours");
+const BranchMaintenance = require("./models/branch_maintenance");
 // const StatusRoute = require("./routes/status");
 // const typeRouter = require("./routes/user_type");
 // const GovernorateRouter = require("./routes/governorate");
