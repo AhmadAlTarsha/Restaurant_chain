@@ -4,101 +4,17 @@ const BranchOpeningHours = require("../models/branch_opening_hours");
 const { throwError } = require("../middleware/throwError");
 
 exports.addBranchOpeningHours = async (req, res, next) => {
-  // const branchMenus = req.body; // Assuming req.body is an array of objects
-
+  
+  const branchesOpening = req.body;
   try {
     const result = await BranchOpeningHours.bulkCreate(
-      [
-        {
-          day: "sat",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 1,
-        },
-        {
-          day: "sun",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 1,
-        },
-        {
-          day: "mon",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 1,
-        },
-        {
-          day: "thi",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 1,
-        },
-        {
-          day: "wed",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 1,
-        },
-        {
-          day: "thu",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 1,
-        },
-        {
-          day: "fri",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 1,
-        },
-        {
-          day: "sat",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 2,
-        },
-        {
-          day: "sun",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 2,
-        },
-        {
-          day: "mon",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 2,
-        },
-        {
-          day: "thi",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 2,
-        },
-        {
-          day: "wed",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 2,
-        },
-        {
-          day: "thu",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 2,
-        },
-        {
-          day: "fri",
-          start_time: "10 Am",
-          end_time: "10 pm",
-          branch_id: 2,
-        },
-      ],
+      branchesOpening,
+
       {
-        ignoreDuplicates: true, // This will ignore duplicate entries based on unique constraints
+        ignoreDuplicates: true, 
       }
     );
-console.log(res);
+    console.log(res);
     return res.status(200).json({
       error: false,
       message: "Branch_opining Created Successfully",

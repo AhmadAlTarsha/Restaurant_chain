@@ -13,12 +13,12 @@ const BranchOpeningHours = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    start_time: {
+    close: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true,
     },
-    end_time: {
+    open: {
       type: DataTypes.STRING,
       allowNull: false,
       required: true,
