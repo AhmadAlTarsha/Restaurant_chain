@@ -1,12 +1,12 @@
 
 import React from 'react';
-import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 
+import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import RestaurantMenuOutlinedIcon from '@mui/icons-material/RestaurantMenuOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
-
+import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
 
 export const drawerItem = [
    
@@ -28,7 +28,12 @@ export const drawerItem = [
     },
     {
       icon: <QueryBuilderOutlinedIcon/>,
-      label: "branches Opining Hours",
+      label: "branches Opining",
       path: "/branches-opining-hours",
+    },
+    {
+      icon: <HandymanOutlinedIcon/>,
+      label: "branches maintenance",
+      path: "/branches-maintenance",
     },
   ];

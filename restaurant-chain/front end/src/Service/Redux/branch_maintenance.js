@@ -1,27 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  addOpiningHoursToBranch
-} from "../Api/branch_opining_hours/CRUD";
+addMaintenanceToBranch
+} from "../Api/branch_maintenance/CRUD";
 
 
-export const AddTimeToBranchState = createAsyncThunk(
-  "bra_h/add/r",
+export const AddMaintenanceToBranchState = createAsyncThunk(
+  "bra_m/add/r",
   async (payload) => {
-    return await addOpiningHoursToBranch(payload);
+    return await addMaintenanceToBranch(payload);
   }
 );
 
 
-export const BranchesOpiningSlice = createSlice({
-  name: "branchesOpining",
+export const BranchesMaintenanceSlice = createSlice({
+  name: "branchesMaintenance",
   initialState: {
     isLoading: false,
     errorMessage: {
       error: false,
       message: "",
     },
-    branchesOpining: [],
-    branchesOpiningUpdate: false,
+    branchesMaintenance: [],
+    branchesMaintenanceUpdate: false,
     snackBarMessage: "",
     snackBarStatus: "",
   },
@@ -89,21 +89,21 @@ export const BranchesOpiningSlice = createSlice({
 
     //================================================================Add cases
     builder
-      .addCase(AddTimeToBranchState.pending, (state) => {
-        state.branchesOpiningUpdate = true;
+      .addCase(AddMaintenanceToBranchState.pending, (state) => {
+        state.branchesMaintenanceUpdate = true;
 
         state.errorMessage = {
           error: false,
           message: "",
         };
       })
-      .addCase(AddTimeToBranchState.fulfilled, (state, action) => {
+      .addCase(AddMaintenanceToBranchState.fulfilled, (state, action) => {
 console.log(action.payload);
 
-        state.branchesOpiningUpdate = false;
+        state.branchesMaintenanceUpdate = false;
 
         state.snackBarMessage = action.payload.message;
-        state.branchesOpining = action.payload.branches
+        state.branchesMaintenance = action.payload.branches
         ;
         state.snackBarStatus = "success";
         state.errorMessage = {
@@ -111,11 +111,11 @@ console.log(action.payload);
           message: "Added Success",
         };
       })
-      .addCase(AddTimeToBranchState.rejected, (state, action) => {
+      .addCase(AddMaintenanceToBranchState.rejected, (state, action) => {
         state.errorMessage = {
           isError: true,
           // return err
-          message: `${action.payload ?? "Error Adding TIME"}`,
+          message: `${action.payload ?? "Error Adding maintenance"}`,
         };
         state.branchesOpiningUpdate = false;
         state.snackBarStatus = "error";
@@ -156,4 +156,4 @@ console.log(action.payload);
   },
 });
 
-export default BranchesOpiningSlice.reducer;
+export default BranchesMaintenanceSlice.reducer;

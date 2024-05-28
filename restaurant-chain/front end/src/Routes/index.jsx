@@ -8,8 +8,10 @@ import Main from "../Layouts";
 import Menu from "../Pages/Menu/index";
 import BranchesMenus from "../Pages/Restaurant_Menu";
 import BranchOpeningHours from "../Pages/branch_opining_time";
+import BranchMaintenance from "../Pages/Branches_maintenances";
 
-import { CssBaseline } from "@mui/material";
+
+
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +37,10 @@ export const router = createBrowserRouter([
       {
         path: "branches-opining-hours",
         element: <BranchOpeningHours />,
+      },
+      {
+        path: "branches-maintenance",
+        element: <BranchMaintenance />,
       },
     ],
   },
