@@ -1,22 +1,28 @@
-const Maintenance = require("../models/maintenance");
+const MaintenanceBranch = require("../models/branch_maintenance");
 
-exports.addMaintenanceType = async (req, res, next) => {
- 
+exports.addMaintenanceToBranch = async (req, res, next) => {
+  const { price, from_date, to_date, branch_id, maintenance_id } = req.body;
 
   try {
-    Maintenance.bulkCreate([
-      { name: "Complete shutdown" },
-      { name: "Partial shutdown" },
-      { name: "Normal operation" },
-    ]);
+   const [result,created]= await MaintenanceBranch.findOrCreate({
+      where: { branch_id },
+      defaults: {
+        branch_id,
+        maintenance_id,
+        price,
+        from_date,
+        to_date,
+      },
+    });
 
 
-    // if (!created) {
-    //   return res.status(401).json({
-    //     error: true,
-    //     message: "menu Already Exist",
-    //   });
-    // }
+
+    if (!created) {
+      return res.status(401).json({
+        error: true,
+        message: "maintenance Already Exist",
+      });
+    }
 
     return res.status(200).json({
       error: false,

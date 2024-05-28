@@ -18,19 +18,25 @@ const BranchMaintenance = sequelize.define(
       allowNull: false,
       defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
     },
+    from_date: {
+      type: DataTypes.STRING,
+      required: true,
+    },
+    to_date: {
+      type: DataTypes.TEXT,
+      required: true,
+    },
     price: {
-        type: DataTypes.DOUBLE,
-        required: true,
-      },
-      comment: {
-        type: DataTypes.TEXT,
-        required: true,
-      },
+      type: DataTypes.DOUBLE,
+      required: true,
+    },
+    comment: {
+      type: DataTypes.TEXT,
+      required: true,
+    },
   },
   {
     timestamps: false,
-   
-    
   }
 );
 

@@ -1,24 +1,24 @@
 const Branch = require("../models/branch");
 const Menu = require("../models/menu");
 const BranchMenu = require("../models/branch_menu");
+const BranchOpeningHours = require("../models/branch_opening_hours");
+const branchMaintenance = require("../models/branch_maintenance");
 const { throwError } = require("../middleware/throwError");
-const { Op } = require('sequelize'); 
-
+const { Op } = require("sequelize");
 
 exports.addBranch = async (req, res, next) => {
   const { name, phone, street_name } = req.body;
 
   try {
-
-  const [branch, created] = await Branch.findOrCreate({
-    where: { name, active: 1 },
-    defaults: {
-      name,
-      phone,
-      street_name,
-      active: 1, 
-    },
-  });
+    const [branch, created] = await Branch.findOrCreate({
+      where: { name, active: 1 },
+      defaults: {
+        name,
+        phone,
+        street_name,
+        active: 1,
+      },
+    });
 
     if (!created) {
       return res.status(401).json({
@@ -47,7 +47,6 @@ exports.getAllBranches = async (req, res, next) => {
         {
           model: BranchMenu,
           attributes: ["menu_id"],
-          // where: { active: 1 },
 
           include: [
             {
@@ -56,6 +55,21 @@ exports.getAllBranches = async (req, res, next) => {
               where: { active: 1 },
             },
           ],
+        },
+        {
+          model: branchMaintenance,
+          attributes: [
+            "id",
+            "price",
+            "maintenance_id",
+            "from_date",
+            "to_date",
+            "comment",
+          ],
+        },
+        {
+          model: BranchOpeningHours,
+          attributes: ["id", "open", "close", "day"],
         },
       ],
     });
@@ -69,28 +83,22 @@ exports.getAllBranches = async (req, res, next) => {
           street_name: branch.street_name,
           active: branch.active,
           created_at: branch.created_at,
-          Branch_Menu:branch.Branches_Menus.map((item)=>{
-            return item.Menu.name
-        }),
+          Branch_Menu: branch.Branches_Menus.map((item) => {
+            return item.Menu.name;
+          }),
+          branchOpining: branch.branches_opening_hours,
+          BranchesMaintenances: branch.Branches_Maintenances,
         };
       });
       return res.status(200).json({
         error: false,
-        branch: allBranches
-        // branch: {
-        //     id: result.id,
-        //     name: result.name,
-        //     phone: result.phone,
-        //     street_name: result.street_name,
-        //     active: result.active,
-        //     created_at: result.created_at,
-        //     }
+        branch: allBranches,
       });
     } else if (result.length === 0) {
       return res.status(201).json({
         error: false,
         message: "no branch added yet",
-        branch: []
+        branch: [],
       });
     }
   } catch (err) {
@@ -157,18 +165,17 @@ exports.editBranch = async (req, res, next) => {
   const { name, phone, street_name } = req.body;
 
   try {
-
     const existingBranch = await Branch.findOne({
       where: {
         name,
         active: 1,
-        id: { [Op.ne]: id } 
-      }
+        id: { [Op.ne]: id },
+      },
     });
     if (existingBranch) {
       return res.status(400).json({
         error: true,
-        message: "branch name in use"
+        message: "branch name in use",
       });
     }
     const result = await Branch.update(
@@ -181,7 +188,7 @@ exports.editBranch = async (req, res, next) => {
         message: "Account info in use",
       });
     }
-      
+
     if (result[0] === 0) {
       return res.status(404).json({
         error: true,
@@ -193,8 +200,6 @@ exports.editBranch = async (req, res, next) => {
       error: false,
       message: "branch updated successfully",
     });
-
-  
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -213,11 +218,11 @@ exports.deleteBranch = async (req, res) => {
       { where: { id: id } }
     );
     if (result) {
-        return res.status(200).json({
-          error: false,
-          message: "branch deleted successfully",
-        });
-      }
+      return res.status(200).json({
+        error: false,
+        message: "branch deleted successfully",
+      });
+    }
     console.log(result);
   } catch (err) {
     return res.status(500).json({

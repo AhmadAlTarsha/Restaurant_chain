@@ -35,6 +35,8 @@ const branchRouter = require("./routes/branch");
 const menuRouter = require("./routes/menu");
 const branchMenuRouter = require("./routes/branch_menu");
 const branchOpiningRouter = require("./routes/branch_opining");
+const MaintenanceRouter = require("./routes/maintenance");
+const branchMaintenanceRouter = require("./routes/branch_maintenance");
 
 
 
@@ -43,6 +45,8 @@ app.use("/branch", branchRouter);
 app.use("/menu", menuRouter);
 app.use("/branch_menu", branchMenuRouter);
 app.use("/branch_opining", branchOpiningRouter);
+app.use("/maintenance", MaintenanceRouter);
+app.use("/branch_maintenance", branchMaintenanceRouter);
 // app.use("/type_permission", TypePermission);
 // app.use("/permissions", PermissionRouter);
 // app.use("/region", RegionRouter);
