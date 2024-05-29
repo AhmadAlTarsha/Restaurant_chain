@@ -15,11 +15,11 @@ export const drawerItem = [
     path: "/data",
   },
     { icon:<AccountTreeOutlinedIcon/>,  label: "branches", path: "/branches" },
-    {
-      icon: <AdminPanelSettingsOutlinedIcon/>,
-      label: "Admins",
-      path: "/admin",
-    },
+    // {
+    //   icon: <AdminPanelSettingsOutlinedIcon/>,
+    //   label: "Admins",
+    //   path: "/admin",
+    // },
     {
       icon: <RestaurantMenuOutlinedIcon/>,
       label: "Menu",
