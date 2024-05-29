@@ -94,8 +94,8 @@ const BranchesList = ({
       }, 1000);
     } else {
       dispatch(AddBranchesState({ name, phone, street_name }));
-      setSnackBarText("branch added successfully");
-      setSnackBarStatus("success");
+      // setSnackBarText("branch added successfully");
+      // setSnackBarStatus("success");
       setTimeout(() => {
         setOpenSnackbar(true);
       }, 1000);
@@ -269,8 +269,8 @@ const BranchesList = ({
       <SimpleSnackbar
         open={openSnackbar}
         setOpen={setOpenSnackbar}
-        text={snackBarText}
-        status={snackBarStatus}
+        text={BranchSelector.snackBarMessage}
+        status={BranchSelector.snackBarStatus}
       />
     </Box>
   );

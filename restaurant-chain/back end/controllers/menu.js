@@ -1,5 +1,8 @@
 const Menu = require("../models/menu");
 const { Op } = require('sequelize'); 
+
+
+// ===========================================================add menu to the db
 exports.addMenu = async (req, res, next) => {
   const { name } = req.body;
 
@@ -33,7 +36,7 @@ exports.addMenu = async (req, res, next) => {
     next(err);
   }
 };
-
+// ===========================================================get all menu from the db
 exports.getAllMenu = async (req, res, next) => {
   try {
     const result = await Menu.findAll();
@@ -57,7 +60,7 @@ exports.getAllMenu = async (req, res, next) => {
     next(err);
   }
 };
-
+// ===========================================================edit menu  
 exports.editMenu = async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
@@ -102,7 +105,7 @@ exports.editMenu = async (req, res, next) => {
     next(err);
   }
 };
-
+// ===========================================================delete menu from the db
 exports.deleteMenu = async (req, res) => {
   const { id } = req.params;
   try {

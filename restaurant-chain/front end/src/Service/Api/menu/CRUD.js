@@ -3,10 +3,9 @@ import axios from "axios";
 const url = "http://localhost:5001/";
 
 export const getMenu = async () => {
- 
   try {
     const result = await axios.get(`${url}menu`);
-   
+
     if (!result?.data?.error) {
       return result?.data?.all_Menu;
     }
@@ -17,21 +16,16 @@ export const getMenu = async () => {
 };
 
 export const deleteMenuItem = async (payload) => {
- 
- 
   try {
-    const result = await axios.delete(
-      `${url}menu/${payload.menuId}`,
-    );
+    const result = await axios.delete(`${url}menu/${payload.menuId}`);
 
     if (!result.data?.error) {
-      const menu=await getMenu()
+      const menu = await getMenu();
 
-   
-      return({
-message:result.data?.message,
-menu:menu
-     } )
+      return {
+        message: result.data?.message,
+        menu: menu,
+      };
     }
   } catch (err) {
     console.error("ERROR ====> ", err.response.data.message);
@@ -40,46 +34,40 @@ menu:menu
 };
 
 export const addMenuItem = async (payload) => {
-console.log(payload);
+  console.log(payload);
   try {
-    const result = await axios.post(`${url}menu`,{name:payload.item});
+    const result = await axios.post(`${url}menu`, { name: payload.item });
 
     if (!result.data?.error) {
-      const menu=await getMenu()
+      const menu = await getMenu();
 
-   
-      return({
-message:result.data?.message,
-menu:menu
-     } )
-        
+      return {
+        message: result.data?.message,
+        menu: menu,
+      };
     }
   } catch (err) {
     console.log("ERROR ====> ", err.response.data.message);
     throw err.response.data.message;
   }
 };
-export const editItem= async (payload) => {
-
-
+export const editItem = async (payload) => {
   try {
-    const result = await axios.put(`${url}menu/${payload.menuId}`,{name:payload.content.trim()});
+    const result = await axios.put(`${url}menu/${payload.menuId}`, {
+      name: payload.content.trim(),
+    });
 
     if (!result.data?.error) {
+      const menu = await getMenu();
 
-
-      const menu=await getMenu()
-
-   
-      return({
-message:result.data?.message,
-menu:menu
-     } )
-
+      return {
+        message: result.data?.message,
+        menu: menu,
+      };
     }
   } catch (err) {
     console.log("ERROR  from editing====> ", err);
-   
+
     throw err.response.data.message;
   }
 };

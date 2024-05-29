@@ -7,9 +7,13 @@ import RestaurantMenuOutlinedIcon from '@mui/icons-material/RestaurantMenuOutlin
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
 import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
-
+import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 export const drawerItem = [
-   
+  {
+    icon: <BarChartOutlinedIcon/>,
+    label: "data",
+    path: "/data",
+  },
     { icon:<AccountTreeOutlinedIcon/>,  label: "branches", path: "/branches" },
     {
       icon: <AdminPanelSettingsOutlinedIcon/>,
@@ -36,4 +40,5 @@ export const drawerItem = [
       label: "branches maintenance",
       path: "/branches-maintenance",
     },
+  
   ];

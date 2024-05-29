@@ -3,6 +3,7 @@ const Menu = require("../models/menu");
 const BranchMenu = require("../models/branch_menu");
 const BranchOpeningHours = require("../models/branch_opening_hours");
 const branchMaintenance = require("../models/branch_maintenance");
+const Maintenance = require("../models/maintenance");
 const { throwError } = require("../middleware/throwError");
 const { Op } = require("sequelize");
 
@@ -65,6 +66,13 @@ exports.getAllBranches = async (req, res, next) => {
             "from_date",
             "to_date",
             "comment",
+          ],
+          include: [
+            {
+              model: Maintenance,
+              attributes: ["name"],
+           
+            },
           ],
         },
         {

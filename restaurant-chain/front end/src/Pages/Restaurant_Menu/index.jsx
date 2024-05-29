@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { GetBranchesState } from "../../Service/Redux/res_Branches";
-import { GetMenuState } from "../../Service/Redux/Menu";
-import { AddMenuToBranchState } from "../../Service/Redux/res_bra_menu";
-
 import {
   Container,
   Typography,
@@ -16,19 +11,24 @@ import {
   Grid,
   Card,
   CardContent,
+  Snackbar,
+  Alert,
 } from "@mui/material";
+import { GetBranchesState } from "../../Service/Redux/res_Branches";
+import { GetMenuState } from "../../Service/Redux/Menu";
+import { AddMenuToBranchState } from "../../Service/Redux/res_bra_menu";
 
 const BranchesAndMenus = () => {
   const [targetMenu, setTargetMenu] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [selectedMenuItems, setSelectedMenuItems] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  const BranchSelector = useSelector((state) => {
-    return state.branch;
-  });
-
+  const BranchSelector = useSelector((state) => state.branch);
   const allMenu = useSelector((state) =>
-    state.menu.menu.filter((item) => item.active === 1).map((item) => item)
+    state.menu.menu.filter((item) => item.active === 1)
   );
 
   const branches = BranchSelector.branches;
@@ -36,9 +36,7 @@ const BranchesAndMenus = () => {
 
   const handleBranchSelect = (branch_id) => {
     const branchMenu =
-      branches
-        .filter((branch) => branch.id === branch_id)
-        .map((branch) => branch.Branch_Menu)[0] || [];
+      branches.find((branch) => branch.id === branch_id)?.Branch_Menu || [];
     const result = allMenu.filter((item) => !branchMenu.includes(item.name));
 
     setTargetMenu(result);
@@ -63,15 +61,28 @@ const BranchesAndMenus = () => {
     });
   };
 
-  const handleAddItemsToBranches = async () => {
-    if (selectedBranch && selectedMenuItems.length > 0) {
+  const handleAddItemsToBranches = () => {
+    if (!selectedBranch) return;
+
+    if (selectedMenuItems.length > 0) {
       dispatch(AddMenuToBranchState({ selectedMenuItems }));
+      setSnackbarMessage("Menus added to the branch successfully!");
+      setSnackbarSeverity("success");
+    } else {
+      setSnackbarMessage("No menu items selected");
+      setSnackbarSeverity("error");
     }
+    setSnackbarOpen(true);
   };
+
   useEffect(() => {
     dispatch(GetBranchesState());
     dispatch(GetMenuState());
   }, [dispatch]);
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <Container style={{ marginTop: "32px" }}>
@@ -148,6 +159,20 @@ const BranchesAndMenus = () => {
           Add Items to Selected Branch
         </Button>
       )}
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

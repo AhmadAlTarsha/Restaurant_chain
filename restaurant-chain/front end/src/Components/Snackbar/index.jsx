@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 // import { useTheme } from "@mui/material/styles";
 
 export default function SimpleSnackbar({open,setOpen,text,status}) {
-
+console.log(text,status);
 // const theme=useTheme()
 
   const handleClose = (event, reason) => {

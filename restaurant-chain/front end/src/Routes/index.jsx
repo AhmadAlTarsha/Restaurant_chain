@@ -9,6 +9,7 @@ import Menu from "../Pages/Menu/index";
 import BranchesMenus from "../Pages/Restaurant_Menu";
 import BranchOpeningHours from "../Pages/branch_opining_time";
 import BranchMaintenance from "../Pages/Branches_maintenances";
+import Data from "../Pages/Data";
 
 
 
@@ -18,6 +19,11 @@ export const router = createBrowserRouter([
     path: "/",
     element: <Main />,
     children: [
+
+      {
+        path: "data",
+        element: <Data />,
+      },
       {
         path: "branches",
         element: <Branches />,

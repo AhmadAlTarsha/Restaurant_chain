@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,6 +15,8 @@ import {
   FormControl,
   InputLabel,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 
 import { GetBranchesState } from "../../Service/Redux/res_Branches";
@@ -22,6 +25,10 @@ import { AddTimeToBranchState } from "../../Service/Redux/branch_opining_hours";
 const BranchOpeningHours = () => {
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [openingHours, setOpeningHours] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
   const BranchSelector = useSelector((state) => state.branch);
@@ -51,22 +58,23 @@ const BranchOpeningHours = () => {
   };
 
   const handleSubmit = () => {
-  
     for (let index = 0; index < openingHours.length; index++) {
-    if (openingHours[index].close===undefined||openingHours[index].open===undefined) {
-      return "err some data missing"
+      if (openingHours[index].close === undefined || openingHours[index].open === undefined) {
+        setSnackbarMessage("Error: Some data is missing");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+        return;
+      }
     }
-   }
-      
 
-  
-      dispatch(AddTimeToBranchState({ openingHours }));
-    
+    dispatch(AddTimeToBranchState({ openingHours }));
+    setSnackbarMessage("Opening hours added successfully!");
+    setSnackbarSeverity("success");
+    setSnackbarOpen(true);
+  };
 
-
-     
-
- 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -171,6 +179,20 @@ const BranchOpeningHours = () => {
           </Grid>
         )}
       </Grid>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

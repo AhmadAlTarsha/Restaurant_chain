@@ -1,8 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-addMaintenanceToBranch
+addMaintenanceToBranch,getMaintenanceBranch
 } from "../Api/branch_maintenance/CRUD";
 
+export const GetMaintenanceToBranchState = createAsyncThunk(
+  "sss/get/branch",
+  async (payload) => {
+    return await getMaintenanceBranch();
+  }
+);
 
 export const AddMaintenanceToBranchState = createAsyncThunk(
   "bra_m/add/r",
@@ -28,33 +34,33 @@ export const BranchesMaintenanceSlice = createSlice({
 
   extraReducers: (builder) => {
     //===========================================================================Get cases
-    // builder
-    //   .addCase(GetBranchesState.pending, (state) => {
-    //     state.isLoading = true;
-    //     state.errorMessage = {
-    //       error: false,
-    //       message: "",
-    //     };
-    //   })
-    //   .addCase(GetBranchesState.fulfilled, (state, action) => {
+    builder
+      .addCase(GetMaintenanceToBranchState.pending, (state) => {
+        state.isLoading = true;
+        state.errorMessage = {
+          error: false,
+          message: "",
+        };
+      })
+      .addCase(GetMaintenanceToBranchState.fulfilled, (state, action) => {
 
         
-    //     state.isLoading = false;
-    //     state.branches = action.payload;
-    //     state.errorMessage = {
-    //       isError: false,
-    //       message: "all branch",
-    //     };
-    //   })
-    //   .addCase(GetBranchesState.rejected, (state, action) => {
-    //     state.isLoading = true;
-    //     state.errorMessage = {
-    //       isError: true,
-    //       // return err
-    //       message: `${action.payload ?? "Error Getting Branch"}`,
-    //     };
-    //   });
-    //===============================================================================Edit cases
+        state.isLoading = false;
+        state.branchesMaintenance = action.payload;
+        state.errorMessage = {
+          isError: false,
+          message: "all Maintenance",
+        };
+      })
+      .addCase(GetMaintenanceToBranchState.rejected, (state, action) => {
+        state.isLoading = true;
+        state.errorMessage = {
+          isError: true,
+          // return err
+          message: `${action.payload ?? "Error Getting Maintenance"}`,
+        };
+      });
+    // ===============================================================================Edit cases
     // builder
     //   .addCase(EditBranchesState.pending, (state) => {
     //     state.branchUpdate = true;
@@ -112,6 +118,7 @@ console.log(action.payload);
         };
       })
       .addCase(AddMaintenanceToBranchState.rejected, (state, action) => {
+       console.log(action.error.message);
         state.errorMessage = {
           isError: true,
           // return err

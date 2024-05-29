@@ -20,7 +20,7 @@ exports.addMaintenanceToBranch = async (req, res, next) => {
     if (!created) {
       return res.status(401).json({
         error: true,
-        message: "maintenance Already Exist",
+        message: "this branch Already in maintenance",
       });
     }
 
@@ -36,29 +36,29 @@ exports.addMaintenanceToBranch = async (req, res, next) => {
   }
 };
 
-// exports.getAllMenu = async (req, res, next) => {
-//   try {
-//     const result = await Menu.findAll();
+exports.getAllMaintenanceBranch = async (req, res, next) => {
+  try {
+    const result = await MaintenanceBranch.findAll();
 
-//     if (result[0]?._options.raw) {
-//       return res.status(200).json({
-//         error: false,
-//         all_Menu: result,
-//       });
-//     } else if (result.length === 0) {
-//       return res.status(201).json({
-//         error: false,
-//         message: "no menu added yet",
-//         all_Menu: [],
-//       });
-//     }
-//   } catch (err) {
-//     if (!err.statusCode) {
-//       err.statusCode = 500;
-//     }
-//     next(err);
-//   }
-// };
+    if (result[0]?._options.raw) {
+      return res.status(200).json({
+        error: false,
+        MaintenanceBranch: result,
+      });
+    } else if (result.length === 0) {
+      return res.status(201).json({
+        error: false,
+        message: "no branch in Maintenance added yet",
+        all_Menu: [],
+      });
+    }
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+};
 
 // exports.editMenu = async (req, res, next) => {
 //   const { id } = req.params;

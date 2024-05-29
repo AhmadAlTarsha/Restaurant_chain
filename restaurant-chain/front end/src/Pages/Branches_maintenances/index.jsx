@@ -15,9 +15,11 @@ import {
   FormControl,
   InputLabel,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { GetBranchesState } from "../../Service/Redux/res_Branches";
-import { AddMaintenanceToBranchState } from "../../Service/Redux/branch_maintenance";
+import { AddMaintenanceToBranchState, GetMaintenanceToBranchState } from "../../Service/Redux/branch_maintenance";
 
 const BranchMaintenance = () => {
   const [selectedBranch, setSelectedBranch] = useState(null);
@@ -25,16 +27,17 @@ const BranchMaintenance = () => {
   const [comment, setComment] = useState("");
   const [shutdownType, setShutdownType] = useState("");
   const [price, setPrice] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   
   const maintenanceDate = new Date().toISOString().split("T")[0]; // Today's date in YYYY-MM-DD format
 
   const BranchSelector = useSelector((state) => state.branch);
   const branches = BranchSelector.branches;
+  console.log(BranchSelector);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(GetBranchesState());
-  }, [dispatch]);
 
   const handleBranchSelect = (branchId) => {
     setSelectedBranch(branchId);
@@ -44,32 +47,46 @@ const BranchMaintenance = () => {
     setPrice("");
   };
 
-  const handleSubmit = () => {
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
-   
+  const handleSubmit = () => {
     if (!maintenanceEndDate || !comment || !shutdownType || !price) {
-      alert("Please fill in all fields");
+      setSnackbarMessage("Please fill in all fields");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
       return;
     }
 
     const today = new Date().toISOString().split("T")[0];
     if (maintenanceEndDate < today) {
-      alert("The maintenance end date cannot be in the past");
+      setSnackbarMessage("The maintenance end date cannot be in the past");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
       return;
     }
 
     const maintenanceData = {
       branch_id: selectedBranch,
       from_date: maintenanceDate,
-     to_date: maintenanceEndDate,
+      to_date: maintenanceEndDate,
       comment,
       maintenance_id: shutdownType,
-      price:`${price} JD`,
+      price: `${price} JD`,
     };
- console.log(maintenanceData);
+    console.log(maintenanceData);
     dispatch(AddMaintenanceToBranchState({ maintenanceData }));
+    
+    setSnackbarMessage(BranchSelector.snackBarMessage );
+    setSnackbarSeverity("success");
+    setSnackbarOpen(true);
   };
 
+  useEffect(() => {
+    dispatch(GetBranchesState());
+    dispatch(GetMaintenanceToBranchState());
+  }, [dispatch]);
   return (
     <Container style={{ marginTop: "32px" }}>
       <Typography variant="h4" gutterBottom style={{ marginBottom: "16px" }}>
@@ -172,6 +189,15 @@ const BranchMaintenance = () => {
           </Grid>
         )}
       </Grid>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

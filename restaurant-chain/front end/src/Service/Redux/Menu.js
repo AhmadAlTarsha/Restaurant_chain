@@ -108,7 +108,7 @@ export const MenuSlice = createSlice({
         state.menuUpdate = false;
       });
 
-    // //================================================================Add cases
+    //================================================================Add cases
     builder
       .addCase(AddMenuState.pending, (state) => {
         state.menuUpdate = true;
@@ -119,6 +119,7 @@ export const MenuSlice = createSlice({
         };
       })
       .addCase(AddMenuState.fulfilled, (state, action) => {
+       
         state.menuUpdate = false;
 
         state.snackBarMessage = action.payload.message;
@@ -130,11 +131,8 @@ export const MenuSlice = createSlice({
         };
       })
       .addCase(AddMenuState.rejected, (state, action) => {
-        state.errorMessage = {
-          isError: true,
-          // return err
-          message: `${action.payload ?? "Error Adding Color"}`,
-        };
+   
+      
         state.menuUpdate = false;
         state.snackBarStatus = "error";
         state.snackBarMessage = action.error.message;

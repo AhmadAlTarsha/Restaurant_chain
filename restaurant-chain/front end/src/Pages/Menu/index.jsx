@@ -89,8 +89,7 @@ const Menu = () => {
       }, 1000);
     } else {
       dispatch(AddMenuState({ item }));
-      setSnackBarText("item added successfully");
-      setSnackBarStatus("success");
+    
       setTimeout(() => {
         setOpenSnackbar(true);
       }, 1000);
@@ -266,8 +265,8 @@ const Menu = () => {
        <SimpleSnackbar
         open={openSnackbar}
         setOpen={setOpenSnackbar}
-        text={snackBarText}
-        status={snackBarStatus}
+        text={menuSelector.snackBarMessage}
+        status={menuSelector.snackBarStatus}
       />
     </>
   );
